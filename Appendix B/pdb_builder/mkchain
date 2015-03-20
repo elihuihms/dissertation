@@ -1,0 +1,23 @@
+#!/usr/bin/python
+
+from sys import *
+from pdbchain.pdb_json import *
+
+if (len(argv) < 4):
+	print "Usage: mkchain.py 'JSON string' 'matrix.txt' 'output.pdb'"
+	exit(0)
+else:
+
+	# load the transformation matricies
+	(components, matrices) = readMatrices( argv[2] )
+	if( matrices == None ):
+		print "Valid matrix file not found."
+		exit(0)
+	
+	# load the structural files
+	TRAP_pdb = parsePDB( components[0] )
+	AT_pdb = parsePDB( components[1] )
+
+	writePDBFromJSON( matrices, argv[1], argv[3], TRAP_pdb, AT_pdb )
+	
+print 'Done.'

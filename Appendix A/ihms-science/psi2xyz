@@ -1,0 +1,35 @@
+#!/usr/bin/perl
+
+if ($#ARGV == -1)
+{
+	print "Usage: psi2xyz <output.dat> > output.xyz\n";
+	exit;
+}
+
+$file = $ARGV[$#ARGV];
+open (FILE, "<$file") or die("Could not open \"$file\"!");
+
+@lines = <FILE>;
+
+close(FILE);
+
+$status = 0;
+@output = ();
+
+for($i=0; $i<$#lines; $i++)
+{
+	if ($status == 1)
+	{
+		if ($lines[$i] =~ /^\s+\(\s+([A-Za-z]+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+/)
+		{
+			push(@output,"$1\t$2\t$3\t$4\n");
+		}
+		else{ $i=$#lines+1; }
+	}
+	
+	if ($lines[$i] =~ /The Optimized geometry in Angstrom/){ $status = 1; }
+}
+
+print $#output+1;
+print "\n";
+print @output;

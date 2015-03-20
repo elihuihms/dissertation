@@ -1,0 +1,15 @@
+#!/bin/bash
+
+FNAME=$(basename "${@: -1}" .pdb)
+
+if [ -e "${FNAME}.dat" ]
+then
+	echo "${FNAME}.dat exists";
+else
+	crysol $@
+	tread -w -start 1 -col 1 ${FNAME}00.int > ${FNAME}.dat
+	tread -w -start 1 -col 2 ${FNAME}00.int | twrite -col 1 ${FNAME}.dat
+	rm "${FNAME}00.int"
+	rm "${FNAME}00.alm"
+	rm "${FNAME}00.log"
+fi

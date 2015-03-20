@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+
+#
+# calculates % residue exposure from a POPS per-residue output file
+# uses ASA values from amino acid side chain for residue X in a Gly-X-Gly tripeptide with the main chain in an extended conformation (Miller et al. 1987)
+#
+
+$file = $ARGV[$#ARGV];
+if (! -e $file)
+{
+	print "File \"$file\" does not exist!\n";
+	exit;
+}
+
+`pops --pdb $file --popsOut pops.out --residueOut`;
+
+@residues = split("\n",`tread -w -col 0 pops.out`);
+@counters = split("\n",`tread -w -col 2 pops.out`);
+@surfaces = split("\n",`tread -w -col 5 pops.out`);
+
+%areas = ('ALA',67,'ARG',148,'ASN',96,'ASP',91,'CYS',86,'GLU',114,'GLN',109,'GLY',48,'HIS',118,'ILE',124,'LEU',124,'LYS',135,'MET',124,'PHE',135,'PRO',90,'SER',73,'THR',93,'TRP',163,'TYR',141,'VAL',105);
+
+for($i=0; $i<$#residues; $i++)
+{
+	if ($areas{$residues[$i]} > 0) {
+		print $counters[$i]."\t".$residues[$i]."\t".(($surfaces[$i]/$areas{$residues[$i]})*100)."\n";
+	}
+}

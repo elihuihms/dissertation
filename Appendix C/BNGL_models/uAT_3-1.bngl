@@ -1,0 +1,59 @@
+begin parameters
+
+	vol		1E-14			#Reaction volume, in Liters
+	Na		6.022E23		#Avogadros number
+
+	Tconc	0.5E-6*(vol*Na)	#uM
+	Aconc	Tconc*3		#uM
+
+	k1f		1.50E5/(Na*vol)
+	k1b		0.316
+	k2f		2.34E4/(Na*vol)
+	k2b		0.0450
+	k3f		3.16E3/(Na*vol)
+	k3b		0.00827
+
+end parameters
+
+begin molecule types
+
+	AT(t)
+#	AT(t,t,t,n~0~1~2~3)
+#	TRAP(a)
+	TRAP(a,a,a,a,a,n~0~1~2~3~4~5)
+
+end molecule types
+
+begin	species
+
+	AT(t)					Aconc
+#	AT(t,t,t,n~0)			Aconc
+
+#	TRAP(a)					Tconc
+	TRAP(a,a,a,a,a,n~0)		Tconc
+
+end	species
+
+begin reaction rules
+
+#	AT(t,n~0) + TRAP(a)	<-> AT(t!0,n~1).TRAP(a!0)		k1f/3, k1b/1
+#	AT(t,n~1) + TRAP(a)	<-> AT(t!0,n~2).TRAP(a!0)		k1f/2, k1b/2
+#	AT(t,n~2) + TRAP(a)	<-> AT(t!0,n~3).TRAP(a!0)		k1f/1, k1b/3
+
+	TRAP(a,n~0) + AT(t)	<-> TRAP(a!0,n~1).AT(t!0)	k1f/5, k1b/1
+	TRAP(a,n~1) + AT(t)	<-> TRAP(a!0,n~2).AT(t!0)	k1f/4, k1b/2
+	TRAP(a,n~2) + AT(t)	<-> TRAP(a!0,n~3).AT(t!0)	k1f/3, k1b/3
+	TRAP(a,n~3) + AT(t)	<-> TRAP(a!0,n~4).AT(t!0)	k2f/2, k2b/4
+	TRAP(a,n~4) + AT(t)	<-> TRAP(a!0,n~5).AT(t!0)	k3f/1, k3b/5
+
+end reaction rules
+
+begin observables
+
+	Molecules			AT_quench		TRAP(a!0).AT(t!0)
+
+end observables
+
+writeXML();
+#generate_network({overwrite=>1});
+#simulate_ode({t_start=>0,t_end=>10,n_steps=>1000,prefix=>'model_ode'});

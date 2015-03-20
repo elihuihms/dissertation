@@ -1,0 +1,114 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 01.27.2010	written
+# 05.18.2010	added pipe checking
+# 05.26.2010	added min/max methods
+# 04.25.2011	added count, version
+# 09.05.2012	fixed -avg calculation
+$version = '09.04.12';
+
+$method = "none";
+
+#go through the arguments and get their values
+foreach(@ARGV)
+{
+	if ($_ eq "-stddev"){
+		$method = "stddev";
+	}
+	elsif($_ eq "-sum"){
+		$method = "sum";
+	}
+	elsif($_ eq "-avg"){
+		$method = "average";
+	}
+	elsif($_ eq "-max"){
+		$method = "maximum";
+	}
+	elsif($_ eq "-min"){
+		$method = "minimum";
+	}
+	elsif($_ eq "-count"){
+		$method = "count";
+	}
+	elsif($_ eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($_ eq "-h"){
+		show_help();
+	}
+	elsif ($_ eq "-help"){
+		show_help();
+	}
+}
+
+if ($method eq "none"){
+	die "No method specified.\n";
+}
+
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+
+# get passed dataset
+@data = <STDIN>;
+chomp(@data);
+
+# initialize maximum and minimum placeholders
+$max = $data[0];
+$min = $data[0];
+
+$sum = 0;
+foreach(@data)
+{
+	$sum += ($_)*1.00000; #lazy convert to float
+	if ($_ > $max){
+		$max = $_;
+	}
+	if ($_ < $min){
+		$min = $_;
+	}
+}
+if( $#data > 0 )
+{
+	$avg = $sum / ($#data +1);
+}else{
+	$avg = $data[0];
+}
+
+# output requested value
+if ($method eq "stddev")
+{	
+	$dev = 0;
+	foreach(@data){
+		$dev += ($_ - $avg)**2;
+	}
+	
+	print sqrt($dev / $#data)."\n";
+}
+elsif ($method eq "average"){
+	print $avg."\n";
+}
+elsif ($method eq "sum"){
+	print $sum."\n";
+}
+elsif ($method eq "maximum"){
+	print $max."\n";
+}
+elsif ($method eq "minimum"){
+	print $min."\n";
+}
+elsif ($method eq "count"){
+	print ($#data +1)."\n";
+}
+
+
+sub show_help
+{
+	print "tcalc -stddev|-avg|-sum|-max|-min|-count\n";
+	exit;
+}

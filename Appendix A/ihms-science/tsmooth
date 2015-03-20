@@ -1,0 +1,171 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 05.14.2009	written
+# 01.27.2010	added help
+# 05.18.2010	added pipe checking
+$version='05.18.2010';
+
+# default values
+$argcounter			= 0;
+$mode		= "false";
+$mean_n				= 3;
+$exp_factor	= 0.5;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ($ARGV[ $argcounter ] eq "-mean")
+	{
+		$mode = "mean";
+		$mean_n = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-exp")
+	{
+		$mode = "exp";
+		$exp_factor = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-sg")
+	{
+		$mode = "sg";
+		$filter_width = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+# sanity options check
+@allowed_modes = ("mean","exp","sg");
+
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+
+# argument sanity checks
+if (not(grep $_ eq $mode, @allowed_modes)){
+	die "Invalid smoothing mode '$function' specified";
+}
+
+# read rough data
+@rough_data = <STDIN>;
+chomp(@rough_data);
+@smooth_data	= ();
+
+# apply smoothing routine
+if ($mode eq "mean")
+{
+	# running average smoothing
+	for($i=0; $i <= $#rough_data; $i++)
+	{
+		if (($i < $mean_n) or ($i > ($#rough_data - $mean_n))){
+			$smooth_data[ $i ] = $rough_data[ $i ];
+		}
+		else
+		{
+			$correction_a = 0;
+			$correction_b = 0;
+			for($j=0; $j < $mean_n; $j++)
+			{
+				# bidirectional averaging
+				$correction_a = $correction_a + $rough_data[ $i - $j ];
+				$correction_b = $correction_b + $rough_data[ $i + $j ];
+			}
+			$smooth_data[ $i ] = ($correction_a + $correction_b) / ($mean_n * 2);
+		}
+	}
+}
+elsif($mode eq "exp")
+{
+	@smooth_f = (); # points smoothed forward
+	@smooth_b = (); # points smoothed backward
+	
+	# do smoothing with increasing i (forward)
+	for($i=0; $i <= $#rough_data; $i++)
+	{
+		if ($i < 1){
+			$smooth_f[$i] = $rough_data[$i];
+		}else{
+			$smooth_f[$i] = ($exp_factor * $rough_data[$i]) + ((1- $exp_factor) * $smooth_f[$i -1]);
+		}
+	}
+	
+	# do smoothing with decreasing i (backward)
+	for ($i = $#rough_data; $i >= 0; $i--)
+	{
+		if ($i == $#rough_data){
+			$smooth_b[$i] = $rough_data[$i];
+		}else{
+			$smooth_b[$i] = ($exp_factor * $rough_data[$i]) + ((1- $exp_factor) * $smooth_b[$i +1]);
+		}
+	}
+	
+	for($i=0; $i <= $#rough_data; $i++){
+		$smooth_data[$i] = ($smooth_f[$i] + $smooth_b[$i]) /2;
+	}
+}
+elsif($mode eq "sg")
+{
+	# Savitsky-Golay
+	# http://www.chem.uoa.gr/applets/appletsmooth/appl_smooth2.html
+	
+	# Quadratic smooth integer sets 
+	@quad_5pt	= (-3,12,17,12,-3);
+	@quad_7pt	= (-2,3,6,7,6,3,-2);
+	@quad_9pt	= (-21,14,39,54,59,54,39,14,-21);
+	@quad_11pt	= (-36,9,44,69,84,89,84,69,44,9,-36);
+	
+	@quad_set[5,7,9,11] = (\@quad_5pt,\@quad_7pt,\@quad_9pt,\@quad_11pt);
+	@quad_width[5,7,9,11] = (2,3,4,5);
+
+	# argument sanity checks
+	if ($quad_width[$filter_width] < 2){
+		die "Unsupported Savitsky-Golay filter width specified";
+	}
+	
+	# fill in unsmoothed data outside filter widths
+	for ($i = 0; $i <= $quad_width[$filter_width]; $i++)
+	{
+		$smooth_data[$i] = ($rough_data[$i] * 1.00);
+		$smooth_data[$#rough_data -$i] = ($rough_data[$#rough_data -$i] * 1.00);
+	}
+	
+	# apply smoothing algorithm
+	for ($i = $quad_width[$filter_width]; $i <= ($#rough_data -$quad_width[$filter_width]); $i++)
+	{
+		$upper_sum = 0;
+		$lower_sum = 0;
+		for($j = (-1 * $quad_width[$filter_width]); $j <= $quad_width[$filter_width]; $j++)
+		{
+			$k = $j + $quad_width[$filter_width];
+			$upper_sum = $upper_sum + ($quad_set[$filter_width][$k] * $rough_data[$i+$j]);
+			$lower_sum = $lower_sum + $quad_set[$filter_width][$k];
+		}
+		$smooth_data[$i] = $upper_sum / $lower_sum;
+	}	
+}
+
+# dump smoothed data to stdout
+$output_data = join("\n",@smooth_data)."\n";
+print STDOUT $output_data;
+
+sub show_help
+{
+	print "tsmooth -mean=N|-exp=N|-sg=N\n";
+	exit;
+}

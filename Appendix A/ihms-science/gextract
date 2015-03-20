@@ -1,0 +1,308 @@
+#!/usr/bin/perl
+
+# This script reads through a gaussian (g03) output (.log) file and extracts the
+# cartesian coordinates for each optimization step in an opt execution
+# last revision: 09.08.05
+
+# things to set... #
+%atmnumber = (1,'H',6,'C',7,'N',8,'O',15,'P',16,'S');
+
+# start argument preprocessing
+# get the number of arguments
+$numargs = $#ARGV +1;
+
+$argcounter = 0;
+$stringcounter = 0;
+@stringargs = ();
+@structlist = ();
+
+#go through the arguments and get their values
+while ( $argcounter < $numargs )
+{
+	if ( $ARGV[ $argcounter] eq "-h" )
+	{
+		&print_help;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-n" )
+	{
+		@structlist[0] = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-r" )
+	{
+		@rangelist = split(/\.\./, $ARGV[ $argcounter +1 ]);
+		
+		$counterstart = $rangelist[0];
+		$counterend = $rangelist[1];
+		
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-s" )
+	{
+		$structstep = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-l" )
+	{
+		$getonlylast = 1;
+	}
+	elsif ( $ARGV[ $argcounter ] =~ m/^\+/ )
+	{
+		$fixstring = $ARGV[ $argcounter ];
+		# remove leading "+"
+		$fixstring =~ s/\+//;
+		# fill out array
+		@structlist = split(/,/, $fixstring);
+	}
+	else
+	{
+		$stringargs[ $stringcounter ] = $ARGV[ $argcounter ];
+		$stringcounter++;
+	}
+	
+	$argcounter++;
+}
+
+# done with argument processing
+
+# make sure we've got a reasonable input file 
+if (! $stringargs[0] )
+{
+	die "No input file specified.\n";
+}
+
+# open the specified file
+$log_file = $stringargs[0];
+open( LOGFILE, $log_file ) || die "Can't open $log_file: $!\n";
+
+# read the entire file into @log_file_data
+@log_file_data = <LOGFILE>;
+
+close( LOGFILE );
+
+# initialize our array that will eventually hold all of the cartesian coords
+@coords_array = ();
+# number of atoms in the set
+$num_atoms = 0;
+
+# go through the file line by line
+$linecounter = 0;
+$atomcounter = 0;
+$num_structures = 0;
+while ( $linecounter < $#log_file_data )
+{
+	$preline = $log_file_data[ $linecounter ];
+	($fileline = $preline) =~ s/\s+//g;
+	
+	# cartesian coordinates in g03 output are preceded by some specific text
+	# (Standard Orientation) and then four lines of text
+	if (( $fileline eq "Standardorientation:" ) || ( $fileline eq "Inputorientation:"))
+	{
+		$num_atoms = 0;
+		
+		$linecounter = $linecounter + 5;
+		
+		# go through the coordinates, and append each line onto the hash
+		while ($linecounter < $#log_file_data)
+		{
+			$fileline = $log_file_data[ $linecounter ];
+			chomp( $fileline );
+			
+			if ( $fileline eq " ---------------------------------------------------------------------")
+			{
+				last;
+			}
+			else
+			{
+				$coords_array[$atomcounter] = $fileline;
+				$atomcounter++;
+
+				$num_atoms++;
+			}
+			
+			$linecounter++;
+		}
+
+		$num_structures++;
+	}
+	
+	$linecounter++;
+}
+
+if ($num_atoms < 1)
+{
+	die "No valid atom coordinates found!\n";
+}
+
+# fill out missing args, if needed
+if (! $structstep)
+{
+	$structstep = 1;
+}
+
+if ($#structlist < 0)
+{
+	if (! $counterstart)
+	{
+		$counterstart = 1;
+	}
+	if (! $counterend)
+	{
+		$counterend = ($#coords_array / $num_atoms);
+	}
+	if ( $counterpick )
+	{
+		$counterstart = $counterpick;
+		$counterend = $counterpick;
+	}
+	if ( $getonlylast )
+	{
+		$counterstart = $num_structures;
+		$counterend = $num_structures;
+	}
+}
+else
+{
+	$counterstart = -1;
+	$counterend = -1;
+}
+# get a reasonable output file
+$stringargs[0] =~ s/\.log//;
+
+if (! $stringargs[1])
+{
+	$stringargs[1] = $stringargs[0];
+}
+$stringargs[1] = $stringargs[1] . "_";
+
+$linecounter = 0;
+$total_atoms = $num_atoms * (($counterend - $counterstart) +1);
+
+# we should have a hash loaded with the appropriate values
+$atomcounter = 0;
+$entrycounter = 0;
+$current_file = "";
+
+while ($atomcounter <= $#coords_array)
+{
+	$entrymod = $atomcounter % $num_atoms;
+	if ($entrymod == 0)
+	{
+		$entrycounter = $entrycounter + $structstep;
+	}
+	
+	$entrymod++; #human-readable
+	
+	# break up the line into the needed fields
+	$atomstring = $coords_array[$atomcounter];
+	$atomstring =~ s/\s+/ /g;
+	($trash,$atomid,$atomkind,$garbage,$xcoord,$ycoord,$zcoord) = split(/ /,$atomstring);
+	
+	if (( ($entrycounter <= $counterend) && ($entrycounter >= $counterstart) ) || ( inArray($entrycounter, @structlist) > 0) )
+	{
+		$file_counter = sprintf("%03d", $entrycounter);
+		$file_loc = $stringargs[1] . $file_counter . ".xyz";
+		
+		if ( $current_file eq $file_loc )
+		{
+			open( OUTPUT, ">>$file_loc" ) || die "Couldn't append data to file: $!\n";
+		}
+		else
+		{
+			$current_file = $file_loc;
+			open( OUTPUT, ">$file_loc" ) || die "Couldn't open file for writing: $!\n";
+			
+			# stick on the needed headers
+			print OUTPUT "$num_atoms\n\n";
+		}
+
+		$xcoord = sprintf("%.4f", $xcoord);
+		$ycoord = sprintf("%.4f", $ycoord);
+		$zcoord = sprintf("%.4f", $zcoord);
+	
+		print OUTPUT $atmnumber{$atomkind};
+	
+		if ( $xcoord >= 0)
+		{
+			print OUTPUT "     $xcoord ";
+		}
+		else
+		{
+			print OUTPUT "    $xcoord ";
+		}
+		if ( $ycoord >= 0)
+		{
+			print OUTPUT "  $ycoord ";
+		}
+		else
+		{
+			print OUTPUT " $ycoord ";
+		}
+		if ( $zcoord >= 0)
+		{
+			print OUTPUT "  $zcoord ";
+		}
+		else
+		{
+			print OUTPUT " $zcoord ";
+		}
+		
+		print OUTPUT "\n";
+		
+		close( OUTPUT );
+
+		$linecounter++;
+	}
+	
+	$atomcounter++;
+}
+
+close( OUTPUT );
+
+sub print_help
+{
+	print "--------------------------------------------------------------------------------\n";
+	print "   Help for gextract\n";
+	print "   (C)2005 Elihu Ihms, elihuihms(at)hotmail.com\n";
+	print "   Version: 0.1d\n";
+	print "--------------------------------------------------------------------------------\n";
+	print "gextract extracts the structual state from Gaussian03 structure optimization\n";
+	print "files for each iteration. File is saved as a series of simple XYZ state files.\n";
+	print "\n";
+	print "Valid usage is: gextract [OPTIONS] <input> <output>\n";
+	print "\n";
+	print "Options:\n";
+	print "-n N	: Build the structure at iteration N. (same as +N) \n";
+	print "-l	: Builds only the last structure.\n";
+	print "-r N1..N2	: Build structures from N1 to N2.\n";
+	print "-s N	: Step increment. Default is 1.\n";
+	print "+N1,N2,N3...	: build only specific structures (comma-delimited list).\n";
+	print "-h	: Prints this help message.\n";
+	print "<input>: The Gaussian03 log file to read from.\n";
+	print "<output> : The resulting file to write the coordinates to.\n";
+	print "\n";
+	print "Note: if <outputfile> is  not defined, the output will be the same as the\n";
+	print "inputfile, but with an appended \"xyz\".\n";
+	print "--------------------------------------------------------------------------------\n";
+	print "Notes:\n";
+	print "This program is not affiliated in any way with the makes of Gaussian.\n";
+	print "It's simply a script written to make life easier for those who use g03\n";
+	print "Bugs:\n";
+	print "If using this script for atoms other than C,H,N,O,S and P, you will need to add\n";
+	print "them to the atmnumber hash at the beginning of the script.\n";
+	die( "\n" );
+}
+
+sub inArray
+{
+	$arrayelement = shift;
+
+	foreach $element (@_)
+	{
+		if ($arrayelement eq $element)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}

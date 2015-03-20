@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# script uses tr (translate) to convert a comma-delimited file to a tab-delimited one
+# usage: comma2tab <file in> <file out>
+
+cat $1 | tr "," "\\t" > $2

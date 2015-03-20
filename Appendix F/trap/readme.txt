@@ -1,0 +1,1 @@
+This directory contains the targets and component linkage files for analyzing TRAP-AT clusters via MESMER. For more information on candidate structure generation, see Appendix B

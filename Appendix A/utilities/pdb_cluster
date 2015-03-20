@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import numpy
+import argparse
+
+from pdb_lib import *
+from distmat import DistanceMatrix
+from NMRClust import NMRClust
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-pdbs',	required=True,					nargs='*',		help='PDBs to perform cluster analysis')
+parser.add_argument('-domain',	action='append',	default=[],	nargs='*',		help='Restrict analysis to domains: [<chain>] <start res> <end res>')
+parser.add_argument('-noalign',	action='store_true',default=False,				help='Do not superimpose structures before calculating RMSDs')
+parser.add_argument('-dm',		action='store_true',default=False,				help='Print distance matrix')
+args = parser.parse_args()
+
+# convert domain residues to integers
+for i in range(len(args.domain)):
+	if(len(args.domain[i]) == 2):
+		args.domain[i] = (None,int(args.domain[i][0]),int(args.domain[i][1]))
+	elif(len(args.domain[i]) == 3 ):
+		args.domain[i] = (args.domain[i][0],int(args.domain[i][1]),int(args.domain[i][2]))
+	else:
+		print "-domain takes two or three arguments"
+		exit()
+
+# if no domains specified, collect the entire PDB
+if( len(args.domain) == 0 ):
+	args.domain.append( [None,0,9999] )
+
+files = sorted( args.pdbs )
+n = len(files)
+
+# obtain atom coordinates from each file
+coords = []
+for i in range(n):
+	coords.append( [] )
+	for j in range(len(args.domain)):
+		coords[i].extend(
+			getAtomCoords( files[i],
+				chainID = args.domain[j][0],
+				startRes = args.domain[j][1],
+				endRes = args.domain[j][2])
+		)
+
+# fill distance matrix
+dm = DistanceMatrix(n)
+for i in range(n):
+	for j in range(i+1,n):
+
+		# perform superimposition if required
+		if( not args.noalign ):
+			(Ac,Bc,T) = kabsch( coords[i], coords[j] )
+			coords[i] = numpy.dot( coords[i]-Ac, T )+Bc
+
+		# write to row,col of distance matrix
+		dm.set(i,j, getRMSD(coords[i],coords[j]) )
+
+if(args.dm):
+	print dm
+
+tmp = NMRClust(dm)
+for (i,c) in enumerate(tmp.clusters):
+	print "Cluster: %i" % i
+
+	j = tmp.representative(c)
+	print "\t%s" % files[j],
+	for k in c.members():
+		if(j != k):
+			print "\t%s" % files[k],
+	print ""

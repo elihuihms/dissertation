@@ -1,0 +1,846 @@
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 2 and name CA)( resid 2 and name HA) 3.104 0.507843
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 3 and name CA)( resid 3 and name HA) -2.023 1.51598
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 4 and name CA)( resid 4 and name HA) -1.089 1.25806
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 5 and name CA)( resid 5 and name HA) 1.863 1.51374
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 6 and name CA)( resid 6 and name HA) 1.624 0.437669
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 7 and name CA)( resid 7 and name HA) -0.61 1.04598
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 8 and name CA)( resid 8 and name HA) -3.555 1.51551
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 9 and name CA)( resid 9 and name HA) -2.141 0.886738
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 10 and name CA)( resid 10 and name HA) -0.818 0.28972
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 11 and name CA)( resid 11 and name HA) 3.346 0.275084
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 13 and name CA)( resid 13 and name HA) -0.764 0.144711
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 14 and name CA)( resid 14 and name HA) -0.21 0.140489
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 15 and name CA)( resid 15 and name HA) -2.645 0.359005
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 16 and name CA)( resid 16 and name HA) 2.068 0.316317
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 17 and name CA)( resid 17 and name HA) -2.671 0.166067
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 18 and name CA)( resid 18 and name HA) -2.413 0.286786
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 19 and name CA)( resid 19 and name HA) -1.594 0.0668742
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 20 and name CA)( resid 20 and name HA) -1.269 0.152073
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 21 and name CA)( resid 21 and name HA) 1.284 1.15213
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 22 and name CA)( resid 22 and name HA) -2.39 0.512428
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 23 and name CA)( resid 23 and name HA) -2.044 0.0491818
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 25 and name CA)( resid 25 and name HA) -1.559 0.215605
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 27 and name CA)( resid 27 and name HA) 2.958 0.160098
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 28 and name CA)( resid 28 and name HA) -2.182 0.200594
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 29 and name CA)( resid 29 and name HA) -1.068 0.283226
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 30 and name CA)( resid 30 and name HA) -2.064 0.357133
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 31 and name CA)( resid 31 and name HA) 2.733 0.138767
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 32 and name CA)( resid 32 and name HA) 2.297 0.258774
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 33 and name CA)( resid 33 and name HA) -3.664 0.135565
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 34 and name CA)( resid 34 and name HA) 2.971 0.428354
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 35 and name CA)( resid 35 and name HA) 3.485 0.316945
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 36 and name CA)( resid 36 and name HA) -1.334 0.824255
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 38 and name CA)( resid 38 and name HA) 3.934 1.23797
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 39 and name CA)( resid 39 and name HA) -4.335 1.5405
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 40 and name CA)( resid 40 and name HA) -4.451 0.360153
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 41 and name CA)( resid 41 and name HA) 3.857 0.384563
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 42 and name CA)( resid 42 and name HA) -1.149 1.02011
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 43 and name CA)( resid 43 and name HA) -2.891 0.623612
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 44 and name CA)( resid 44 and name HA) -1.26 0.818266
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 45 and name CA)( resid 45 and name HA) 3.623 1.2613
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 46 and name CA)( resid 46 and name HA) -4.222 4.39177
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 47 and name CA)( resid 47 and name HA) -2.67 1.3532
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 48 and name CA)( resid 48 and name HA) 1.929 0.452678
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 49 and name CA)( resid 49 and name HA) 3.121 0.545818
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 50 and name CA)( resid 50 and name HA) -2.242 0.853668
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 51 and name CA)( resid 51 and name HA) -2.442 0.303944
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 52 and name CA)( resid 52 and name HA) -2.491 0.0405885
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 102 and name CA)( resid 102 and name HA) 3.104 0.507843
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 103 and name CA)( resid 103 and name HA) -2.023 1.51598
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 104 and name CA)( resid 104 and name HA) -1.089 1.25806
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 105 and name CA)( resid 105 and name HA) 1.863 1.51374
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 106 and name CA)( resid 106 and name HA) 1.624 0.437669
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 107 and name CA)( resid 107 and name HA) -0.61 1.04598
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 108 and name CA)( resid 108 and name HA) -3.555 1.51551
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 109 and name CA)( resid 109 and name HA) -2.141 0.886738
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 110 and name CA)( resid 110 and name HA) -0.818 0.28972
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 111 and name CA)( resid 111 and name HA) 3.346 0.275084
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 113 and name CA)( resid 113 and name HA) -0.764 0.144711
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 114 and name CA)( resid 114 and name HA) -0.21 0.140489
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 115 and name CA)( resid 115 and name HA) -2.645 0.359005
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 116 and name CA)( resid 116 and name HA) 2.068 0.316317
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 117 and name CA)( resid 117 and name HA) -2.671 0.166067
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 118 and name CA)( resid 118 and name HA) -2.413 0.286786
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 119 and name CA)( resid 119 and name HA) -1.594 0.0668742
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 120 and name CA)( resid 120 and name HA) -1.269 0.152073
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 121 and name CA)( resid 121 and name HA) 1.284 1.15213
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 122 and name CA)( resid 122 and name HA) -2.39 0.512428
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 123 and name CA)( resid 123 and name HA) -2.044 0.0491818
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 125 and name CA)( resid 125 and name HA) -1.559 0.215605
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 127 and name CA)( resid 127 and name HA) 2.958 0.160098
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 128 and name CA)( resid 128 and name HA) -2.182 0.200594
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 129 and name CA)( resid 129 and name HA) -1.068 0.283226
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 130 and name CA)( resid 130 and name HA) -2.064 0.357133
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 131 and name CA)( resid 131 and name HA) 2.733 0.138767
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 132 and name CA)( resid 132 and name HA) 2.297 0.258774
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 133 and name CA)( resid 133 and name HA) -3.664 0.135565
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 134 and name CA)( resid 134 and name HA) 2.971 0.428354
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 135 and name CA)( resid 135 and name HA) 3.485 0.316945
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 136 and name CA)( resid 136 and name HA) -1.334 0.824255
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 138 and name CA)( resid 138 and name HA) 3.934 1.23797
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 139 and name CA)( resid 139 and name HA) -4.335 1.5405
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 140 and name CA)( resid 140 and name HA) -4.451 0.360153
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 141 and name CA)( resid 141 and name HA) 3.857 0.384563
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 142 and name CA)( resid 142 and name HA) -1.149 1.02011
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 143 and name CA)( resid 143 and name HA) -2.891 0.623612
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 144 and name CA)( resid 144 and name HA) -1.26 0.818266
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 145 and name CA)( resid 145 and name HA) 3.623 1.2613
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 146 and name CA)( resid 146 and name HA) -4.222 4.39177
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 147 and name CA)( resid 147 and name HA) -2.67 1.3532
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 148 and name CA)( resid 148 and name HA) 1.929 0.452678
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 149 and name CA)( resid 149 and name HA) 3.121 0.545818
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 150 and name CA)( resid 150 and name HA) -2.242 0.853668
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 151 and name CA)( resid 151 and name HA) -2.442 0.303944
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 152 and name CA)( resid 152 and name HA) -2.491 0.0405885
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 202 and name CA)( resid 202 and name HA) 3.104 0.507843
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 203 and name CA)( resid 203 and name HA) -2.023 1.51598
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 204 and name CA)( resid 204 and name HA) -1.089 1.25806
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 205 and name CA)( resid 205 and name HA) 1.863 1.51374
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 206 and name CA)( resid 206 and name HA) 1.624 0.437669
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 207 and name CA)( resid 207 and name HA) -0.61 1.04598
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 208 and name CA)( resid 208 and name HA) -3.555 1.51551
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 209 and name CA)( resid 209 and name HA) -2.141 0.886738
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 210 and name CA)( resid 210 and name HA) -0.818 0.28972
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 211 and name CA)( resid 211 and name HA) 3.346 0.275084
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 213 and name CA)( resid 213 and name HA) -0.764 0.144711
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 214 and name CA)( resid 214 and name HA) -0.21 0.140489
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 215 and name CA)( resid 215 and name HA) -2.645 0.359005
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 216 and name CA)( resid 216 and name HA) 2.068 0.316317
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 217 and name CA)( resid 217 and name HA) -2.671 0.166067
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 218 and name CA)( resid 218 and name HA) -2.413 0.286786
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 219 and name CA)( resid 219 and name HA) -1.594 0.0668742
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 220 and name CA)( resid 220 and name HA) -1.269 0.152073
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 221 and name CA)( resid 221 and name HA) 1.284 1.15213
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 222 and name CA)( resid 222 and name HA) -2.39 0.512428
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 223 and name CA)( resid 223 and name HA) -2.044 0.0491818
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 225 and name CA)( resid 225 and name HA) -1.559 0.215605
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 227 and name CA)( resid 227 and name HA) 2.958 0.160098
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 228 and name CA)( resid 228 and name HA) -2.182 0.200594
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 229 and name CA)( resid 229 and name HA) -1.068 0.283226
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 230 and name CA)( resid 230 and name HA) -2.064 0.357133
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 231 and name CA)( resid 231 and name HA) 2.733 0.138767
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 232 and name CA)( resid 232 and name HA) 2.297 0.258774
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 233 and name CA)( resid 233 and name HA) -3.664 0.135565
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 234 and name CA)( resid 234 and name HA) 2.971 0.428354
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 235 and name CA)( resid 235 and name HA) 3.485 0.316945
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 236 and name CA)( resid 236 and name HA) -1.334 0.824255
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 238 and name CA)( resid 238 and name HA) 3.934 1.23797
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 239 and name CA)( resid 239 and name HA) -4.335 1.5405
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 240 and name CA)( resid 240 and name HA) -4.451 0.360153
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 241 and name CA)( resid 241 and name HA) 3.857 0.384563
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 242 and name CA)( resid 242 and name HA) -1.149 1.02011
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 243 and name CA)( resid 243 and name HA) -2.891 0.623612
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 244 and name CA)( resid 244 and name HA) -1.26 0.818266
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 245 and name CA)( resid 245 and name HA) 3.623 1.2613
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 246 and name CA)( resid 246 and name HA) -4.222 4.39177
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 247 and name CA)( resid 247 and name HA) -2.67 1.3532
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 248 and name CA)( resid 248 and name HA) 1.929 0.452678
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 249 and name CA)( resid 249 and name HA) 3.121 0.545818
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 250 and name CA)( resid 250 and name HA) -2.242 0.853668
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 251 and name CA)( resid 251 and name HA) -2.442 0.303944
+ 
+assign (resid 999 and name OO)
+(resid 999 and name Z)
+(resid 999 and name X)
+(resid 999 and name Y)
+(resid 252 and name CA)( resid 252 and name HA) -2.491 0.0405885
+ 

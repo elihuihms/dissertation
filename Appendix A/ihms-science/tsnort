@@ -1,0 +1,128 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 05.26.2010	written
+# 04.26.11		EI	changed -op to -by, added version
+$version='08.03.12';
+
+# default values
+$argcounter			= 0;
+$direction			= "ascending";
+$operator_file		= "false";
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if( $ARGV[ $argcounter ] eq "-desc" ){
+		$direction = "descending";
+	}
+	elsif( $ARGV[ $argcounter ] eq "-d" ){
+		$direction = "descending";
+	}
+	elsif( $ARGV[ $argcounter ] eq "-rev" ){
+		$direction = "reverse";
+	}
+	elsif( $ARGV[ $argcounter ] eq "-r" ){
+		$direction = "reverse";
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-by" )
+	{
+		$operator_file = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-v"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+
+#make sure operator file exists
+if ($operator_file ne "false"){
+	if (!-e $operator_file){
+		die "Bad operator file specified\n";
+	}
+}
+
+# read data from stdin
+@source_data = <STDIN>;
+chomp(@source_data);
+
+if ($operator_file ne "false")
+{
+	# open and read the operator file
+	open(OPFILE, $operator_file) or die "Can't open $operator_file: $!\n";
+	@operator_file_data = <OPFILE>;
+	close(OPFILE);
+	
+	chomp(@operator_file_data);
+	
+	if ($#operator_file_data != $#source_data){
+		die "Source data and operator file must have equal # of rows.\n";
+	}
+	
+#	# initialize reference hash
+#	$i = 0;
+#	$ref_hash = {};
+#	foreach(@operator_file_data){
+#		$ref_hash{$_} = $source_data[$i];
+#		$i++;
+#	}
+#	
+#	@final_data = ();
+#	# from http://www.tizag.com/perlT/perlhashes.php
+#	foreach $key (sort {$a <=> $b} keys %ref_hash){
+#		push(@final_data,$ref_hash{$key});
+#	}
+
+#	# from http://www.tek-tips.com/viewthread.cfm?qid=52504
+	@final_data =
+	map  {$_->[0]} (
+	sort {$a->[1] <=> $b->[1]} (
+	map {[$_, shift(@operator_file_data)]} @source_data));
+	
+	# reverse direction if we're supposed to
+	if ($direction eq "descending"){
+		@final_data = reverse(@final_data);
+	}
+}
+else
+{
+	if ($direction eq "ascending"){
+		@final_data = sort {$a <=> $b} @source_data;
+	}
+	elsif ($direction eq "descending"){
+		@final_data = sort {$b <=> $a} @source_data;
+	}
+	elsif ($direction eq "reverse"){
+		@final_data = reverse(@source_data);
+	}
+}
+
+# write data to stdout
+$output_data = join("\n",@final_data)."\n";
+print STDOUT $output_data;
+
+sub show_help
+{
+	print "tsort -asc|-desc|-rev (-by [file])\n";
+	exit;
+}

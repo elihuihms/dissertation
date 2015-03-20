@@ -1,0 +1,75 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 004.25.11	EI	written
+$version='04.25.11';
+
+# default values
+$argcounter			= 0;
+$delimiter_regex	= qr/\t/;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-delimiter" )
+	{
+		$delimiter = $ARGV[ $argcounter +1 ];
+		$delimiter_regex = qr/$delimiter/;
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-whitespace" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-w" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-comma" ){
+		$delimiter_regex = qr/\,/;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+if (!-e $ARGV[$#ARGV]){
+	print "Invalid input file specified.\n";
+	exit;
+}
+
+# open and read the file
+open(SRCFILE, $ARGV[$#ARGV]) || die "Can't open ".$ARGV[$#ARGV].": $!\n";
+@file_data = <SRCFILE>;
+close(SRCFILE);
+
+@output_rows = ();
+
+# export to stdout
+for($i=0; $i <= $#file_data; $i++)
+{
+	# split the delimited $_ data
+	@row_data = split($delimiter_regex,$file_data[$i]);
+	chomp(@row_data);
+	
+	for($j=0; $j<$#row_data; $j++){
+		$output_rows[$j]=$output_rows[$j]."\t".$row_data[$j];
+	}
+}
+
+print join("\n",@output_rows);
+
+sub show_help
+{
+	print "texchange [input_file]\n";
+	exit;
+}

@@ -1,0 +1,99 @@
+#!/usr/bin/perl
+
+$conv = 1.88971616463;
+
+$file_argv = 0;
+$onefile = 0;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-last" )
+	{
+		$argcounter++;
+		$file_argv++;
+	}
+	if ( $ARGV[ $argcounter ] eq "-movie" )
+	{
+		$onefile = 1;
+		$argcounter++;
+		$file_argv++;
+	}
+	
+	$argcounter++;
+}
+
+if (($ARGV[$file_argv] eq '') || ($#ARGV == -1))
+{
+	print "Usage: psi2xyz (-last) <output.dat>\n";
+	exit;
+}
+
+$file = $ARGV[$#file_argv];
+open (FILE, "<$file") or die("Could not open \"$file\": $!");
+@lines = <FILE>;
+close(FILE);
+
+
+
+@output = ();
+@atom_names = ();
+
+$status = 0;
+$file_counter = 0;
+for($i=0; $i<$#lines; $i++)
+{
+	if ($lines[$i] =~ /-Geometry after Center-of-Mass shift and reorientation/)
+	{
+		$status = 1;
+		$i++;
+		if ($onefile == 0)
+		{
+			open(FILE,">structure_0.xyz") or die("Could not open \"structure_0.xyz\" for writing: $!");
+		}
+		else
+		{
+			open(FILE,">structures.xyz") or die("Could not open \"structures.xyz\" for writing: $!");
+		}
+	}
+	elsif (($status == 1) && ($lines[$i] =~ /^\s+([A-Za-z]+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+/))
+	{
+		push(@output,"$1\t".($2/$conv)."\t".($3/$conv)."\t".($4/$conv)."\n");
+		push(@atom_names,$1);
+	}
+	elsif (($status == 1) && ($lines[$i] =~ /^\s+$/))
+	{
+		$status = 2;
+		print FILE ($#output+1)."\n";
+		print FILE @output;
+		
+		if ($onefile == 0) { close(FILE); }
+	}
+	elsif (($status == 2) && ($lines[$i] =~ /New Cartesian Geometry in a.u./))
+	{
+		@output = ();
+		$status = 3;
+		$file_counter++;
+		if($onefile == 0){
+			open(FILE,">structure_$file_counter.xyz") or die("Could not open \"structure_$file_counter.xyz\" for writing: $!");
+		}
+	}
+	elsif (($status == 3) && ($lines[$i] =~ /^\s+(\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+/))
+	{
+		push(@output,"\t".($2/$conv)."\t".($3/$conv)."\t".($4/$conv)."\n");
+	}
+	elsif (($status == 3) && ($lines[$i] =~ /^\s+$/))
+	{
+		$status = 2;
+		print FILE ($#output+1)."\n";
+		for($j = 0; $j <= $#atom_names; $j++)
+		{
+			print FILE $atom_names[$j];
+			print FILE $output[$j];
+		}
+		
+		if ($onefile == 0) { close(FILE); }
+	}
+}
+
+close(FILE);

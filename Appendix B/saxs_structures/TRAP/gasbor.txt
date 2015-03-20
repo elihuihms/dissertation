@@ -1,0 +1,12 @@
+U
+<N>.log
+Bsu_00_1_23_gnom.out
+Bsu_00_1_23_<N>_gasbor22i
+1
+1.000
+
+P11
+75
+14
+O
+

@@ -1,0 +1,47 @@
+#!/usr/bin/python
+
+import os
+from sys import argv,exit
+from pdbchain.pdb_json import *
+
+if (len(argv) < 4):
+	print "Usage: mkchain 'json_file.json' 'matrix.txt' <output dir>"
+	exit(0)
+
+# load the transformation matricies
+(components, matrices) = readMatrices( argv[2] )
+if( matrices == None ):
+	print "Valid matrix file not found."
+	exit(0)
+
+# load the structural files
+TRAP_pdb = parsePDB( components[0] )
+AT_pdb = parsePDB( components[1] )
+
+f = open(argv[1], 'r')	
+file = f.read()
+f.close()
+
+# split the single line containing all of the chains into many lines containing one chain per
+file = file.replace('[[{','[{')
+file = file.replace('}]]','}]')
+file = file.replace('}], [{',"}]\n[{")
+chains = file.split("\n")
+
+if (os.path.exists( argv[3] )):
+	print "Directory '%s' already exists" % (argv[3])
+	exit(0)
+
+os.mkdir( argv[3] )
+
+i=0
+for chain in chains:
+	chain.strip()
+	
+	if (len(chain) > 0):
+		print "%i: " % (i),
+		writePDBFromJSON( matrices, chain , "%s/%05i.pdb" % (argv[3],i), TRAP_pdb, AT_pdb )
+
+		i=i+1
+	
+

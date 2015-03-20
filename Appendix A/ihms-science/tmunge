@@ -1,0 +1,126 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 05.14.2009	EI	written
+# 01.27.2010	EI	added help
+# 01.28.2010	EI	added chisq, logchisq
+# 05.18.2010	EI	added pipe checking
+# 08.16.2010	EI	added -rev/reverse function
+# 04.25.2011	EI	cleaned up a little, added version
+$version = "04.25.11";
+
+# default values
+$argcounter			= 0;
+$function			= "false";
+$operator_file		= "false";
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if( $ARGV[ $argcounter ] eq "-f" )
+	{
+		$function = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-op" )
+	{
+		print STDERR "-op option is deprecated, tmunge assumes that its last argument is the operator column file.\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-rev"){
+		$function = 'reverse';
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+# argument sanity checks
+@allowed_functions = ("add","subtract","multiply","divide","chisq","logchisq","reverse");
+if (not(grep $_ eq $function, @allowed_functions)){
+	print STDERR "Invalid math function '$function' specified\n";
+	exit;
+}
+
+# read data from stdin
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+@source_data = <STDIN>;
+
+# open the operation file
+if (!-e $ARGV[$#ARGV]){
+		die "No valid operator file specified\n";
+}
+
+$op_file = $ARGV[$#ARGV];
+chomp($op_file);
+
+# open and read the operator data column
+open FILE, "<$op_file" or die "Can't open $op_file: $!\n";
+@operator_file_data = <FILE>;
+close(FILE);
+
+# apply the math function
+for($i = 0; $i <= $#source_data; $i++)
+{
+	if ($function eq "add"){
+		$complete_data[$i] = $source_data[$i] + $operator_file_data[$i];	
+	}
+	elsif ($function eq "subtract"){
+		$complete_data[$i] = $source_data[$i] - $operator_file_data[$i];
+	}
+	elsif ($function eq "multiply"){
+		$complete_data[$i] = $source_data[$i] * $operator_file_data[$i];
+	}
+	elsif ($function eq "divide"){
+		$complete_data[$i] = $source_data[$i] / $operator_file_data[$i];
+	}
+	elsif ($function eq "chisq"){
+		$complete_data[$i] = ($source_data[$i] - $operator_file_data[$i])**2;
+	}
+	elsif ($function eq "logchisq"){
+		$complete_data[$i] = (safe_log($source_data[$i]) - safe_log($operator_file_data[$i]))**2;
+	}
+}
+
+# reverse array?
+if ($function eq 'reverse'){
+	@complete_data = reverse(@source_data);
+}
+
+# write data to stdout
+$output_data = join("\n",@complete_data)."\n";
+print $output_data;
+
+sub show_help
+{
+	print "tmunge -f add|subtract|multiply|divide|invert -op [file])\n";
+	exit;
+}
+
+sub safe_log
+{
+	my ($z) = @_;
+	if ($z == 0){
+		return 0;
+	}else{
+		return log($z);
+	}
+}

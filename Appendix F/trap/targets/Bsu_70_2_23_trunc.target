@@ -1,0 +1,6 @@
+NAME	Bsu_TRAP_7xAT_5mgmL_trunc
+
+STCH	1	-component TRAP 1 -component AT	7
+
+SAXS	1	-bg -scale -offset -plot -file saxs_data/Bsu_70_2_23_trunc.dat
+

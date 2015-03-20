@@ -1,0 +1,79 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 03.01.2013	written
+$version='03.01.2013';
+
+# default values
+$argcounter			= 0;
+$noise_type			= 'gaussian';
+$magnitude			= 0.0;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-gaussian" ){
+		$noise_type = 'gaussian';
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-random" ){
+		$noise_type = 'random';
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-mag" ){
+		$magnitude = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+# read data from stdin
+@source_data = <STDIN>;
+chomp(@source_data);
+
+# apply noise
+foreach $y(@source_data)
+{
+	if($noise_type eq 'gaussian'){
+		print STDOUT ($y + ($y * $magnitude * gaussian_rand()))."\n";
+	}else{
+		print STDOUT ($y + ($y * $magnitude * (rand(2) -1)))."\n";
+	}
+}
+
+sub show_help
+{
+	print "tnoise [-gaussian|-random] -mag 0.0\n";
+	exit;
+}
+
+#
+# From the Perl cookbook
+# (http://docstore.mik.ua/orelly/perl/cookbook/ch02_11.htm)
+#
+
+sub gaussian_rand
+{
+    my ($u1, $u2);  # uniformly distributed random numbers
+    my $w;          # variance, then a weight
+    my ($g1, $g2);  # gaussian-distributed numbers
+
+    do {
+        $u1 = 2 * rand() - 1;
+        $u2 = 2 * rand() - 1;
+        $w = $u1*$u1 + $u2*$u2;
+    } while ( $w >= 1 );
+
+    $w = sqrt( (-2 * log($w))  / $w );
+    $g2 = $u1 * $w;
+    $g1 = $u2 * $w;
+    # return both if wanted, else just one
+    return wantarray ? ($g1, $g2) : $g1;
+}

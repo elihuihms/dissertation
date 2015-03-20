@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 05.14.2009	written
+# 01.27.2010	fixed argument syntax, added help
+# 02.02.2010	added power function
+# 05.18.2010	added pipe checking
+# 08.04.2010	added sprintf and bc functions
+$version='08.04.2010';
+
+# default values
+$argcounter			= 0;
+$function			= "false";
+$value				= 0;
+$expression			= 'false';
+$scale				= 2;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if( $ARGV[ $argcounter ] eq "-f" )
+	{
+		$function = $ARGV[ $argcounter +1 ];
+		$value = $ARGV[ $argcounter +2 ];
+		$argcounter +=2;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-bc")
+	{
+		$expression = $ARGV[ $argcounter +1 ];
+		if ($ARGV[ $argcounter +2 ] ne ''){
+			$scale = $ARGV[ $argcounter +2 ];
+		}
+		$argcounter +=2;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+
+	$argcounter++;
+}
+
+@allowed_functions = ("add","subtract","multiply","divide","round","power","ln","log","random",'sprintf','bc');
+
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+
+# read data from stdin
+@source_data = <STDIN>;
+chomp(@source_data);
+
+# argument sanity checks
+if ((not(grep $_ eq $function, @allowed_functions)) && ($expression eq 'false')){
+	die "Invalid math function '$function' specified\n";
+}
+
+@ouput_data = ();
+foreach $x(@source_data)
+{
+	chomp($x);
+	if ($function eq "add"){
+		push(@output_data,$x + $value);	
+	}
+	elsif($function eq "subtract"){
+		push(@output_data,$x - $value);
+	}
+	elsif($function eq "multiply"){
+		push(@output_data,$x * $value);
+	}
+	elsif($function eq "divide"){
+		push(@output_data,$x / $value);
+	}
+	elsif($function eq "power"){
+		push(@output_data,$x**$value);
+	}
+	elsif($function eq "ln"){
+		push(@output_data,safe_log($x));
+	}
+	elsif($function eq "log"){
+		push(@output_data,safe_log($x)/log(10));
+	}
+	elsif($function eq "round"){
+		push(@output_data,sprintf("%.".$value."f",$x));
+	}
+	elsif($function eq "random"){
+		push(@output_data,$x + rand($value));
+	}
+	elsif($function eq "sprintf"){
+		push(@output_data,sprintf($value,$x));
+	}
+	elsif($function eq "false"){
+		$e = $expression;
+		$e =~ s/x/$x/g;
+		$o = `echo "scale=$scale; $e" | bc`;
+		chomp($o);
+		push(@output_data,$o);
+	}
+}
+
+# write data to stdout
+foreach $y(@output_data){
+	print STDOUT $y."\n";
+}
+
+sub show_help
+{
+	print "tmath [-f add=N|subtract=N|multiply=N|divide=N|log|ln|round=N|random=N|sprintf=X][-bc=\"expr\" <precision>]\n";
+	exit;
+}
+
+sub safe_log
+{
+	my ($z) = @_;
+	if ($z == 0){
+		return 0;
+	}else{
+		return log($z);
+	}
+}

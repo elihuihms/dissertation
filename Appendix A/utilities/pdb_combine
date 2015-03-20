@@ -1,0 +1,17 @@
+#!/usr/bin/python
+""" Combines multiple PDB files into one """
+
+import sys
+import glob
+
+if len(sys.argv) < 2:
+    print "model.py *.pdb > model.pdb"
+    sys.exit()
+
+i = 1
+for filename in sys.argv[1:]:
+    print """MODEL        %d
+%s
+ENDMDL
+""" % (i, open(filename, 'r').read().strip())
+    i += 1

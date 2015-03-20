@@ -1,0 +1,117 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 07.21.2010	written
+# 08.18.2010	cleaned up a little
+$version='08.18.2010';
+
+# default values
+$argcounter			= 0;
+$column				= 0;
+$step				= 1;
+$fill				= 0;
+$delimiter			= "\t";
+$delimiter_regex	= qr/\t/;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-col" )
+	{
+		$column = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-delimiter" )
+	{
+		$delimiter = $ARGV[ $argcounter +1 ];
+		$delimiter_regex = qr/$delimiter/;
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-whitespace" ){
+		$delimiter_regex = qr/\s+/;
+		$delimiter = " ";
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-w" ){
+		$delimiter_regex = qr/\s+/;
+		$delimiter = " ";
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-comma" ){
+		$delimiter_regex = qr/\,/;
+		$delimiter = ",";
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-down" ){
+		$step = -1;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-fill" ){
+		$fill = 1;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+
+# read data from stdin
+@source_data = <STDIN>;
+
+$value = 0;
+
+# export to stdout
+for($i=0; $i <= $#source_data; $i++)
+{
+	chomp($source_data[$i]);
+
+	# split the delimited $_ data
+	@line_data = split($delimiter_regex,$source_data[$i]);
+	
+	# save the previous value
+	$prev_value = $value;
+	
+	# extract the desired data column
+	$value = @line_data[$column];
+	chomp($value);
+	
+	# look for gaps in the specified value
+	if (($i > 0) && ($value != ($prev_value + $step)))
+	{
+		# if found, insert missing values
+		for($j=1; $j<abs($value-$prev_value); $j++)
+		{
+			# generate the string to replace the missing value
+			$padded_string = '';
+			for ($k=0; $k<=$#line_data; $k++)
+			{
+				# if we've been asked to fill the column with the missing value, do so
+				if (($k==$column) && ($fill > 0)){
+					$padded_string .= $prev_value+($step*$j);
+				}
+				$padded_string .= $delimiter;
+			}
+			print $padded_string."\n";
+		}
+	}
+	
+	# print the current value
+	print $source_data[$i]."\n";
+}
+
+sub show_help
+{
+	print "tpadfix -col=N (-comma -whitespace|-w -delimiter=?) -up|-down -fill\n";
+	exit;
+}

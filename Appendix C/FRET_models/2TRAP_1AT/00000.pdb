@@ -1,0 +1,34 @@
+REMARK   0 [{"depth": 0, "type": 0, "name": "T.0.0", "sites": [100, null, null, null, null, null, null, null, null, null, null]}, {"depth": 1, "type": 1, "name": "A.1.0", "sites": [0, 200, null]}, {"depth": 2, "type": 0, "name": "T.2.0", "sites": [101, null, null, null, null, null, null, null, null, null, null]}]
+REMARK   1 COMPONENT:TRAP
+REMARK   2 COMPONENT:AT
+REMARK   3 COMPONENT:TRAP
+REMARK   4 MW:200173.3
+ATOM      0  QT  LYS A  71     -23.810  16.870   5.390
+ATOM      1  QT  LYS A  71     -28.170   2.480   9.000
+ATOM      2  QT  LYS A  71     -25.730 -12.520   6.810
+ATOM      3  QT  LYS A  71     -17.800 -23.530   0.070
+ATOM      4  QT  LYS A  71      -6.930 -27.870  -9.400
+ATOM      5  QT  LYS A  71       3.880 -22.440 -19.040
+ATOM      6  QT  LYS A  71      11.640 -10.500 -25.590
+ATOM      7  QT  LYS A  71      12.560   4.630 -26.550
+ATOM      8  QT  LYS A  71       6.910  18.360 -21.610
+ATOM      9  QT  LYS A  71      -2.760  26.380 -13.010
+ATOM     10  QT  LYS A  71     -14.330  25.420  -2.960
+TER
+ATOM     11  QA  ASN B  52     -21.105  21.429  51.392
+ATOM     12  QA  ASN B  52     -15.008  14.340  46.480
+ATOM     13  QA  ASN B  52     -10.845  24.082  48.494
+TER
+ATOM     14  QU  LYS C  71     -43.576  34.269  18.343
+ATOM     15  QU  LYS C  71     -49.209  42.598  30.091
+ATOM     16  QU  LYS C  71     -61.402  45.558  38.940
+ATOM     17  QU  LYS C  71     -75.840  42.688  42.524
+ATOM     18  QU  LYS C  71     -88.683  35.242  40.016
+ATOM     19  QU  LYS C  71     -95.165  24.655  30.788
+ATOM     20  QU  LYS C  71     -94.256  14.355  19.008
+ATOM     21  QU  LYS C  71     -85.211   8.638   8.229
+ATOM     22  QU  LYS C  71     -70.943   8.724   1.807
+ATOM     23  QU  LYS C  71     -56.651  13.954   1.360
+ATOM     24  QU  LYS C  71     -46.688  23.722   7.770
+TER
+END

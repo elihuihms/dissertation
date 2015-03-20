@@ -1,0 +1,59 @@
+SOURCES=itc_model.c itc_sim.c
+
+all: itc_sim_simple itc_sim_n_individual itc_sim_sk itc_sim_ian itc_sim_nn itc_sim_nnx itc_sim_occupation itc_sim_fragment itc_sim_comprehensive
+
+# simple non-cooperative model
+itc_sim_simple:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_2par.c energies_simple.c -o itc_sim_simple.so
+
+# Microcal single-mode binding polynomial
+itc_sim_n_individual:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ library_n_identical.c -o itc_sim_n_identical.so
+
+# Saroff and Kiefer's 1998 model
+itc_sim_sk:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_6par.c energies_sk.c -o itc_sim_sk.so
+
+# Ian Kleckner's zero, one, or two neighbor model
+itc_sim_ian:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_6par.c energies_ian.c -o itc_sim_ian.so
+
+# generalized nearest-neighbor model
+itc_sim_nn:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_8par.c energies_nn.c -o itc_sim_nn.so
+
+# exclusive nearest-neighbor model
+itc_sim_nnx:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_6par.c energies_nnx.c -o itc_sim_nnx.so
+
+# two phase binding model
+#itc_sim_2step:
+#	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_2step.c energies_2step.c -o itc_sim_2step.so
+
+# three phase binding model
+#itc_sim_3step:
+#	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_3step.c energies_3step.c -o itc_sim_3step.so
+
+itc_sim_occupation:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_occupation.c energies_occupation.c -o itc_sim_occupation.so
+
+# three fragment binding model
+itc_sim_fragment:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ $(SOURCES) library_fragment.c energies_fragment.c -o itc_sim_fragment.so
+
+# comprehensive, 125-mode binding
+itc_sim_comprehensive:
+	@CC@ -shared -std=c99 @CFLAGS@ @LIBS@ library_comprehensive.c itc_model_comprehensive.c itc_sim.c -o itc_sim_comprehensive.so
+
+clean:
+	rm itc_sim_simple.so
+	rm itc_sim_sk.so
+	rm itc_sim_ian.so
+	rm itc_sim_nn.so
+	rm itc_sim_nnx.so
+#	rm itc_sim_2step.so
+#	rm itc_sim_3step.so
+	rm itc_sim_fragment.so
+	rm itc_sim_comprehensive.so
+
+

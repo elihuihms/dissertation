@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 01.21.2010	written
+
+# this script calculates the row-wise standard deviation from a X\tY1\tY2\t... (NXY) delimited dataset
+
+if( $#ARGV < 0)
+{
+	print "Error: no input file specified.\n";
+	exit;
+}
+
+# get source file
+$source_file = $ARGV[0];
+
+# open and read the file
+open(SRCFILE, $source_file) || die "Can't open $source_file: $!\n";
+
+@file_data = <SRCFILE>;
+
+close(SRCFILE);
+
+# make sure there's at least two columns of data 
+@dummy = split("\t",$file_data[0]);
+if ($#dummy < 2)
+{
+	print "Error: only one column of data. Can't calculate standard deviation.\n";
+	exit;
+}
+
+# go through file line-by-line
+for($i=$start; $i <= $#file_data; $i++)
+{
+	# split the delimited $_ data
+	@row_data = split("\t",$file_data[$i]);
+
+	# go through each column, starting with the second column
+	# $sum = sum of row's columns
+	$r_sum = 0;
+	for($j=1; $j <= $#row_data; $j++){
+		$r_sum += $row_data[$j];
+	}
+	
+	# calculate row average
+	$r_avg = $r_sum / ($#row_data + 1);
+	
+	# go through columns again, now calculate deviation of each point from the average
+	# $dev_sum = sum of each column's deviation from row average
+	$dev_sum = 0;
+	for($j=1; $j <= $#row_data; $j++){
+		$dev_sum += (($row_data[$j] - $r_avg)**2);
+	}
+	
+	print sqrt($dev_sum / $#row_data)."\n";
+}

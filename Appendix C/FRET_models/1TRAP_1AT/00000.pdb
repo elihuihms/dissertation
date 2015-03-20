@@ -1,0 +1,21 @@
+REMARK   0 [{"depth": 0, "type": 0, "name": "T.0.0", "sites": [100, null, null, null, null, null, null, null, null, null, null]}, {"depth": 1, "type": 1, "name": "A.1.0", "sites": [0, null, null]}]
+REMARK   1 COMPONENT:TRAP
+REMARK   2 COMPONENT:AT
+REMARK   3 MW:108560.9
+ATOM      0  QT  LYS A  71     -23.810  16.870   5.390
+ATOM      1  QT  LYS A  71     -28.170   2.480   9.000
+ATOM      2  QT  LYS A  71     -25.730 -12.520   6.810
+ATOM      3  QT  LYS A  71     -17.800 -23.530   0.070
+ATOM      4  QT  LYS A  71      -6.930 -27.870  -9.400
+ATOM      5  QT  LYS A  71       3.880 -22.440 -19.040
+ATOM      6  QT  LYS A  71      11.640 -10.500 -25.590
+ATOM      7  QT  LYS A  71      12.560   4.630 -26.550
+ATOM      8  QT  LYS A  71       6.910  18.360 -21.610
+ATOM      9  QT  LYS A  71      -2.760  26.380 -13.010
+ATOM     10  QT  LYS A  71     -14.330  25.420  -2.960
+TER
+ATOM     11  QA  ASN B  52     -21.105  21.429  51.392
+ATOM     12  QA  ASN B  52     -15.008  14.340  46.480
+ATOM     13  QA  ASN B  52     -10.845  24.082  48.494
+TER
+END

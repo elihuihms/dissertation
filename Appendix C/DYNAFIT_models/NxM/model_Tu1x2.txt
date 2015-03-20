@@ -1,0 +1,33 @@
+[task]
+	data = progress
+	task = fit
+
+[mechanism]
+	T + A <==> TA		: k1f k1b
+	TA + A <==> TAA		: k2f k2b
+	TAA + A <==> TAAA	: k2f k2b
+
+[constants]
+	k1f = 0.05?	; concentration^-1
+	k1b = 0.05?	; concentration
+	k2f = 0.002?	; concentration^-1
+	k2b = 0.03?	; concentration
+
+[responses]
+	TA = -1?
+	TAA = 2 * TA
+	TAAA = 3 * TA
+
+[progress]
+	directory	./140815_uAT
+	file		Run8783.dat | conc T = 0.495 | conc A = 2.474 | response TA = -0.5? | offset 8.2?
+	file		Run8787.dat | conc T = 0.996 | conc A = 5.066 | response TA = -0.5? | offset 8.3?
+	file		Run8795.dat | conc T = 1.577 | conc A = 7.619 | response TA = -0.5? | offset 8.5?
+
+[output]
+  directory		./140815_uAT/model_Tu1x2
+
+[end]
+
+
+

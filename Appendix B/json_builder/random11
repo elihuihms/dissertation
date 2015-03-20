@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+from sys import argv,exit
+from chain_generator import *
+from json import dumps
+
+# has the user specified a number of ATs?
+if (len(argv) < 4):
+	print "Usage: random11 <nTRAP> <nAT> <# of chains>"
+	exit(0)
+
+nTRAPs	= int(argv[1])
+nATs	= int(argv[2])
+nChains	= int(argv[3])
+
+# define the binding types for the model
+defineType(name='T',numSites=11,bindsTo=['A'],symmetric=True,maxCount=nTRAPs)
+defineType(name='A',numSites=3,bindsTo=['T'],symmetric=True,maxCount=nATs)
+
+# make sure that chains can be realistically generated from the specified values
+nATBindSites = nTRAPs * typePrimitive[0][1];
+nTRAPBindSites = nATs * typePrimitive[1][1];
+
+if( nATBindSites < nATs ):
+	print "There are less AT binding sites than ATs. Aborting!"
+	exit(0)
+
+if( nTRAPBindSites < nTRAPs ):
+	print "There are less TRAP binding sites than TRAPs. Aborting!"
+	exit(0)
+
+# actually create the chains
+a = makeRandomChains( nChains )
+print str(len(a))+" chains created."
+
+# the following section selects out only the chains containing the specified number of TRAPs and anti-TRAPs
+
+f = open('output.json','w')
+f.write( dumps(a) )
+f.close

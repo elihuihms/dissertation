@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>plot</title>
+		<script type="text/javascript" src="plot.js"></script>
+<!--
+		<script type="text/javascript" src="filter.js"></script>
+-->
+	</head>
+	<body onLoad='setupFileReader()'>
+		<form name='foo'>
+			<center>
+				Specification file:
+				<input type='file' name='local_file' id='local_file' />
+				&nbsp;
+				&nbsp;
+				<input type='button' value='< Previous Chain' onClick='modifyChainNum(-1)'>
+				<input type='text' value='0' size='2' id='chainNumField' onChange="setChainNum()">
+				<div id='chainNumIndication' style='display:inline;width:100px;text-align:center'></div>
+				<input type='button' value='Next Chain >' onClick='modifyChainNum(1)'>
+<!--
+				Filter: <input type='text' value='0' size='2' id='chainFilterSize' onChange='changeFilter()'>
+				<br />
+-->
+				<input type='text' value='' size='120' id='chainRawText'>
+				<br />
+				<canvas id='plotCanvas' width='800' height='800'></canvas>
+			</center>
+			<input type='hidden' id='chain_store' value='' />
+		</form>
+	</body>
+</html>
+

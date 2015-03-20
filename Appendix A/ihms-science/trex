@@ -1,0 +1,128 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 07.29.2010:	written
+$version='07.29.2010';
+
+# default values
+$argcounter			= 0;
+$start				= 0;
+$end				= 'false';
+$extension			= 'tab';
+$columns			= 'false';
+$title				= 'false';
+$delimiter_regex	= qr/\t/;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-start" )
+	{
+		$start = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-end" )
+	{
+		$end = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-ext" )
+	{
+		$extension = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-cols" )
+	{
+		$columns = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-title" )
+	{
+		$title = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-delimiter" )
+	{
+		$delimiter = $ARGV[ $argcounter +1 ];
+		$delimiter_regex = qr/$delimiter/;
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-whitespace" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-w" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-comma" ){
+		$delimiter_regex = qr/\,/;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+# check for pipe
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+
+# get passed dataset
+@data = <STDIN>;
+chomp(@data);
+
+# export to file
+for($i=0; $i <= $#data; $i++)
+{
+	# split the delimited $_ data
+	@line_data = split($delimiter_regex,$data[$i]);
+	
+	if ($end == 'false'){
+		$end = $#line_data;
+	}
+	
+	# extract the requested columns
+	if ($columns != 'false'){
+		@slice = ();
+		@cols = split(',',$columns);
+		
+		foreach $col (@cols){
+			push(@slice,$line_data[$col]);
+		}
+	}
+	else{
+		@slice = @line_data[$start..$end];
+	}
+	
+	# create the file contents
+	$output_data = join("\n",@slice);
+	
+	# create the file name
+	if ($title == 'false'){
+		$output_file = $i.'.'.$extension;
+	}else{
+		$output_file = $line_data[$title].'.'.$extension;
+	}
+	
+	# open output file
+	open(OUTPUT, '>', $output_file) or die("Can't open '$output_file' for writing: $!");
+	print OUTPUT $output_data."\n";
+	close(OUTPUT);
+}
+
+sub show_help
+{
+	print "trextract (-start N) (-end N) (-comma|-w|-delimiter ?) (-ext tab) (-cols a,b,c) (-title n)\n";
+	exit;
+}

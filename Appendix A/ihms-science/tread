@@ -1,0 +1,112 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 08.26.2009	written
+# 01.27.2010	added help
+# 07.30.2010	changed how tread outputs empty columns
+# 04.02.2010	added input from stdin
+# 11.22.2011	fixed stdin behavior
+$version='11.22.2011';
+
+# default values
+$argcounter			= 0;
+$source_file		= "false";
+$pipe				= 'false';
+$column				= 0;
+$start				= 0;
+$end				= "false";
+$delimiter_regex	= qr/\t/;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-in" )
+	{
+		$source_file = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	if ( $ARGV[ $argcounter ] eq "-pipe" )
+	{
+		$pipe = 'true';
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-col" )
+	{
+		$column = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-start" )
+	{
+		$start = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-end" )
+	{
+		$end = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-delimiter" )
+	{
+		$delimiter = $ARGV[ $argcounter +1 ];
+		$delimiter_regex = qr/$delimiter/;
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-whitespace" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-w" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-comma" ){
+		$delimiter_regex = qr/\,/;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+# argument sanity checks
+if (-e $ARGV[$#ARGV]){
+	$source_file = $ARGV[$#ARGV];
+	open(SRCFILE, $source_file) || die "Can't open $source_file: $!\n";
+	@file_data = <SRCFILE>;
+	close(SRCFILE);
+}elsif ($pipe eq 'true'){
+	@file_data = <STDIN>;
+}else{
+	die "Invalid input file specified.\n"
+}
+	
+chomp(@file_data);
+
+if ($end eq "false"){
+	$end = $#file_data;
+}
+
+# export to stdout
+for($i=$start; $i <= $end; $i++)
+{
+	# split the delimited $_ data
+	@line_data = split($delimiter_regex,$file_data[$i]);
+	
+	# extract the desired data column
+	$value = @line_data[$column];
+	chomp($value);
+	print $value."\n";
+}
+
+sub show_help
+{
+	print "tread -in [file] -col=N (-start=N -end=N -comma -whitespace|-w -delimiter=?)\n";
+	exit;
+}

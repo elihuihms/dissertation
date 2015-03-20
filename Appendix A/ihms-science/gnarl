@@ -1,0 +1,217 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 06.18.2010	EI	Added help, file descriptor piped input
+# 07.28.2010	EI	Fixed problem with periods in file names
+# 08.10.2010	EI	Changed name to gnarl
+# 03.16.2011	EI	Fixed bug with counter variable
+
+$gnarl_ver = "08102010";
+$log_file = "gnarl_log.txt";
+$counter_start = 0;
+$directory = "./";
+$extension = "";
+
+$operations = "false";
+$operations_file = "false";
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-dir" )
+	{
+		$directory = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-op" )
+	{
+		$operations = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-opfile" )
+	{
+		$operations_file = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-ext" )
+	{
+		$extension = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-start" )
+	{
+		$counter_start = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-log" )
+	{
+		$log_file = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+# sanity check
+if ($operations eq "false")
+{
+	if ($operations_file eq "false"){
+		die ("Must specify an operation to run.\n");
+	}
+	else
+	{
+		# open operation file and read contents
+		open(OPFILE, $operations_file) or die("Can't open '$operations_file': $!");
+		@operations = <OPFILE>;
+		close(OPFILE);
+
+		# strip newlines
+		chomp(@operations);
+	}
+}
+else{
+	@operations = ($operations); # convert to single-element array
+}
+	
+# open log file
+open(LOGFILE, ">", $log_file) or die("Can't open '$log_file' for writing: $!");
+
+# get date
+($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)=localtime(time);
+
+# make sure directory has trailing "/"
+if (not($directory =~ /\/$/)){
+	$directory = $directory."/";
+}
+
+#write basics to log file
+print LOGFILE "Gnarl log file\n";
+print LOGFILE "********************\n";
+print LOGFILE "Version: $gnarl_ver\n";
+print LOGFILE "Date: ".($mon+1)."/$mday/".($year+1900)." $hour:$min:$sec\n";
+print LOGFILE "Arguments: @ARGV\n";
+print LOGFILE "Directory: $directory\n";
+if ($operations_file ne "false"){
+	print LOGFILE "Operations file: $operations_file\n";
+}
+print LOGFILE "Operation(s):\n";
+foreach $op(@operations){
+	print LOGFILE "\t$op\n";
+}
+print LOGFILE "********************\n";
+
+if (-t STDIN)
+{
+	print LOGFILE "Opening directory '$directory' for reading...\n";
+	
+	# open directory for reading and retrieve all contents */
+	opendir(DIRECTORY, $directory) or die("Can't open directory '$directory': $!");
+	@dir_contents = readdir(DIRECTORY);
+	closedir(DIRECTORY);
+	
+	# sort files by name, the best we can do for now
+	@dir_contents = sort @dir_contents;
+	
+	# go through contents of directory
+	@file_list = ();
+	foreach(@dir_contents)
+	{
+		# verify it's a file
+		if (-f $directory.$_)
+		{
+			# matches "<stuff>.extension"
+			if ($_ =~ /.*\.$extension/)
+			{
+				push(@file_list,$_);
+			}
+		}
+	}
+	print LOGFILE "Found total of ".($#file_list+1)." files to operate on.\n\n";
+}
+else
+{
+	@file_list = <STDIN>;
+	chomp(@file_list);
+	
+	print LOGFILE "Passed list of ".($#file_list+1)." files to operate on...\n\n";
+}
+
+$size = @operations -1;
+$i = 0; # internal file counter
+$counter = $counter_start; # explicit iteration counter
+
+# iterate through each file
+foreach $file(@file_list)
+{
+	# operations list counter
+	$j = 0;
+
+	# replace %fp with file path
+	$file_path = $directory.$file;
+	$my_op =~ s/\%fp/$file_path/g;
+
+	# extract the file extension and file name
+	# NOTE: for some reason, can't use $1 and $2 in regular expression, so have to (lamely) explicitly set vars
+	$file =~ /^(.*\.)(.*?)$/g;
+	$basename = substr($1,0,-1);
+	$extension = $2;
+	
+	print LOGFILE "File: $file\n";
+	
+	# iterate through each element in the operation list
+	foreach $op (@operations)
+	{
+		if (($op eq '')||(substr($op,0,1) eq '#')){
+			next;
+		}
+		# NOTE: need to make a local copy
+		$my_op = $op;
+		
+		# replace %c with counter
+		$my_op =~ s/\%c/$counter/g;
+
+		# replace %fn with file base name
+		$my_op =~ s/\%fn/$basename/g;
+		
+		# replace %fe with file extension
+		$my_op =~ s/\%fe/$extension/g;
+
+		# replace %f with full file name
+		$my_op =~ s/\%f/$file/g;
+	
+		print LOGFILE "\t[$my_op]...";
+		
+		# run operation
+		$output = `$my_op 2>&1`;
+		
+		chomp($output);
+		
+		print LOGFILE "Done.\n";
+		if (length($output) > 0){
+			print LOGFILE "\t\tResult: '$output'\n";
+		}
+		
+		$j++;
+	}
+	
+	print LOGFILE "\n";
+	
+	$i++;
+	$counter++;
+}
+
+close(LOGFILE);
+
+sub show_help
+{
+	print "gnarl (-op \"command\"|-opfile <opfile>) (-dir <path>) (-ext <extension) (-log <logfile>) (-start N)\n";
+	exit;
+}

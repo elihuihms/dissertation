@@ -1,0 +1,12 @@
+U
+<N>.log
+gnom.out
+fAT_3_23_<N>_gasbor22i
+1
+1.000
+
+P3
+53
+14
+U
+

@@ -1,0 +1,94 @@
+#!/usr/bin/perl
+# this script scrapes I(q) (both experimental and fit), as well as P(r) from a
+# gnom.out file, generating gnom_p.dat and gnom_i.dat files
+
+#
+# changelog
+#
+# 08.25.11	EI	written
+# 04.21.11	EI	gnom_i.dat now contains a fourth column, the uncertainty in the experimental measurement (it's made the fourth column for backward-compatibility with my other scripts)
+#
+
+# break on whitespace
+$regex = qr/\s+/;
+
+# names of output files
+$i_file = "gnom_i.dat";
+$p_file = "gnom_p.dat";
+
+# open and read the file (assume last argument is file name)
+open(SRCFILE, $ARGV[$#ARGV]) || die "Can't open ".$ARGV[$#ARGV].": $!\n";
+@file_data = <SRCFILE>;
+close(SRCFILE);
+
+# phase of file read:
+# 0 - start (reading file headers)
+# 1 - reading I()
+# 2 - done reading I()
+# 3 - reading P()
+# 4 - done reading P()
+$status = 0;
+
+for($i = 0; $i <= $#file_data; $i++)
+{
+	$l = $file_data[$i];
+	chomp($l);
+	@a = split($regex,$l);
+	
+	# determine phase
+	if ($l eq "      S          J EXP       ERROR       J REG       I REG")
+	{
+		$status = 1;
+		# jump empty line
+		$i++;
+		
+		# open I() file for writing
+		open(FILE, ">", $i_file) or die("Can't open '$i_file' for writing: $!");
+
+		next;
+	}
+	elsif (($status == 1) and ($l eq ""))
+	{
+		$status = 2;
+		
+		# close I() file
+		close(FILE);
+		
+		next;
+	}
+	elsif ($l eq "       R          P(R)      ERROR")
+	{
+		$status = 3;
+		# jump empty line
+		$i++;
+		
+		# open P() file for writing
+		open(FILE, ">", $p_file) or die("Can't open '$p_file' for writing: $!");
+		
+		next;
+	}
+	elsif (($status == 3) and ($#a < 3))
+	{
+		$status = 4;
+		
+		# close P() file
+		close(FILE);
+		
+		next;
+	}
+	
+	if ($status == 1)
+	{
+		# regex gets confused when there's empty spaces (e.g. nonexistant exp data)
+		if ($#a > 3) {
+			print FILE ($a[1]."\t".$a[2]."\t".$a[5]."\t".$a[3]."\n");
+		} else {
+			print FILE ($a[1]."\t0\t".$a[2]."\t0\n");
+		}
+	}
+	
+	if ($status == 3)
+	{
+		print FILE ($a[1]."\t".$a[2]."\n");
+	}
+}

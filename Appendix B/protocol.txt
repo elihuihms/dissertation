@@ -1,0 +1,41 @@
+#
+# Generalized protocol for generating unique clean TRAP-AT conformers for MESMER
+#
+# Make determinate and random connectivites
+#
+
+# E.g. all determinate connectivities for 2 TRAPs and 4 ATs:
+determinate5 2 4
+mv output.json 2_4.json
+
+# E.g. 1000 random connectivities b/t 4 TRAPs and 8 ATs:
+random5 4 8 1000
+mv output.json 4_8.json
+
+# combine JSON connectivities into one large file
+combine_json 2_4.json 4_8.json > combined.json
+
+# remove some simple duplicates and clashes using 2D projection maps
+rm_clashes.py combined.json > no_clashes.json
+rm_duplicates.py no_clashes.json > no_duplicates.json
+
+# build PDBs using connectivities and specified transformation matricies
+mkchains no_duplicates.json matrix_5_site_GASBOR.txt pdbs
+
+# scan PDBS for CA/C/N atoms less than 1 apart, make a list of any with > 20 such clashes
+get_clashing_pdb.pl pdbs 1.0 20 > clashing_pdbs.tbl
+
+# use gnarl to move all clashing pdbs to new directory
+mkdir clashing_pdbs
+cat clashing_pdbs.tbl | gnarl -op "mv pdbs/%f clashing_pdbs/%f"
+
+# calculate component distance information for pdbs
+make_pdb_statistics.pl pdbs > pdb_stats.tbl
+
+# make a list of representative pdbs that have structurally unique characteristics (greater than 1% dissimilarity)
+thin.py pdb_stats.tbl
+mv unique.tbl
+
+# use gnarl to copy all unique pdbs to a new folder
+mkdir unique_pdbs
+cat unique.tbl | gnarl -op "cp pdbs/%f unique_pdbs/"

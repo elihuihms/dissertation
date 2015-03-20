@@ -1,0 +1,12 @@
+../pdb_deer_dist.py -pdb MMM_rotamers/ESCRT1_rotamers.pdb -resolution 1 -out distributions/rotamers_27-173.dat -label B 27 O1 -label C 173 O1 &
+../pdb_deer_dist.py -pdb MMM_rotamers/ESCRT1_rotamers.pdb -resolution 1 -out distributions/rotamers_108-256.dat -label A 108 O1 -label A 256 O1 &
+../pdb_deer_dist.py -pdb MMM_rotamers/ESCRT1_rotamers.pdb -resolution 1 -out distributions/rotamers_12-223.dat -label C 12 O1 -label A 223 O1 &
+../pdb_deer_dist.py -pdb MMM_rotamers/ESCRT1_rotamers.pdb -resolution 1 -out distributions/rotamers_65-151.dat -label B 65 O1 -label B 151 O1 &
+../pdb_deer_dist.py -dir mc_pdbs/pdb -resolution 1 -out distributions/mc_27-173.dat -label B 27 OS1 -label C 173 OS1 &
+../pdb_deer_dist.py -dir mc_pdbs/pdb -resolution 1 -out distributions/mc_108-256.dat -label A 108 OS1 -label A 256 OS1 &
+../pdb_deer_dist.py -dir mc_pdbs/pdb -resolution 1 -out distributions/mc_12-223.dat -label C 12 OS1 -label A 223 OS1 &
+../pdb_deer_dist.py -dir mc_pdbs/pdb -resolution 1 -out distributions/mc_65-151.dat -label B 65 OS1 -label B 151 OS1 &
+../pdb_deer_dist.py -dir dyn_pdbs/pdb -resolution 1 -out distributions/dyn_27-173.dat -label B 27 OS1 -label C 173 OS1 &
+../pdb_deer_dist.py -dir dyn_pdbs/pdb -resolution 1 -out distributions/dyn_108-256.dat -label A 108 OS1 -label A 256 OS1 &
+../pdb_deer_dist.py -dir dyn_pdbs/pdb -resolution 1 -out distributions/dyn_12-223.dat -label C 12 OS1 -label A 223 OS1 &
+../pdb_deer_dist.py -dir dyn_pdbs/pdb -resolution 1 -out distributions/dyn_65-151.dat -label B 65 OS1 -label B 151 OS1 &

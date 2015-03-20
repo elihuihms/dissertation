@@ -1,0 +1,12 @@
+NAME	ESCRT1
+
+SAXS 	0.333	-file exp_data/ESCRT1_saxs.dat -scale -offset
+
+# 108-256
+DEER1	1.000	-file exp_data/ESCRT1_108_256_Vt.dat
+
+# 12-223
+DEER2	1.000	-file exp_data/ESCRT1_12_223_Vt.dat
+
+# 65-151
+DEER3	1.000	-file exp_data/ESCRT1_65_151_Vt.dat

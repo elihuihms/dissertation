@@ -1,0 +1,264 @@
+#!/usr/bin/python
+
+"""
+Evaluates a user-specified function at a range of points or a list of x-values passed from stdin
+Uses the python eval() function, or bc if specified
+"""
+
+# changelong
+# 08.12.2010	Ihms	written
+# 08.16.2010	Ihms	added ability to calculate via eval()
+# 08.18.2010	Ihms	added coefficients
+# 04.26.2011	EI		changed name to teval, added some help info
+# 05.03.2011	EI		incorporated math_bits.py
+version='05.03.2011'
+
+#
+# imports
+import sys
+import os
+from math import *
+
+#
+# subroutines
+def showHelp():
+	"""	Shows help for the function generator No arguments """
+	print """
+Synopsis:
+
+teval evaluates rows of tab-delimited data. For example, if had a tab-delimited datafile with three
+coumns of data, say A (tab) B (tab) C, and wanted to calculate a fourth column based on the values
+present in the other three columns, teval can do this easily.
+
+Usage:
+
+	teval (-range a,b -points <points>) -f "expression" (-bc <precision>) (-coef a,b,..,z) -y -v
+
+Execution:
+
+    Input parameters for the function to be evaluated can be provided in two ways:
+    1) A list of newline-delimited parameters can be passed via stdin. Vector parameters should be
+       separated by tabs, e.g.:
+       
+       1     5     6
+       4     3     7
+    
+    2) Alternatively, a simple range can be specified via the -range and -points parameters.
+       See the "Parameters" section for usage instructions.
+
+Function Expression:
+
+    Expressions specified by the -f parameter (see "Parameters" section) are evaulated by python's
+    "eval()" function by default, or optionally by the "bc" commandline utility. Note that
+    expressions are likely not very portable between the two. For example, eval() correctly
+    understands the exp() expression, while bc does not.
+
+    Function parameters are expressed in the function through the x[] array, while coefficients can
+    be included via the c[] array. A quadratic example:
+
+    -f "c[2]*(x[0]**2)+c[1]*x[0]+c[0]"
+
+    Vector parameters can be included easily through the use of the x[] array:
+	
+    -f "sqrt(x[0]**2+x[1]**2)"
+
+Parameters:
+
+    -range a,b          Where a is the start of the x[0] range, and b is the end.
+    
+    -points             The number of points to use between x0 and x1
+    
+    -f "expression"     See the "Function Expression" section for usage instructions.
+    
+    -coef a,b,..,z      A static coefficient list. This option is provided to insert coefficients
+                        in the function expression for maximum portability. Their value is not
+                        changed during the evaulation of the expression. See the "Function
+                        Expression" section for an example.
+	                    
+    -bc <precision>     Use the commandline utility "bc" to evaluate the expression at the
+                        specified precision.
+	                    
+Flags:
+
+    -y                  Output only the expression's output (e.g. y) values.
+
+    -v                  Be verbose.
+    
+    -version			Show the current version and exit.
+"""
+	
+def showIfVerbose(s):
+	""" Prints a message to stderr if verbose flag is set, otherwise doesn't """
+	global verbose
+	if (verbose):
+		sys.stderr.write(s)
+		
+## {{{ http://code.activestate.com/recipes/66472/ (r1)
+def frange(start, end=None, inc=None):
+    """frange( start, end, step ) A range function that can accept float increments, analogous to range()"""
+
+    if end == None:
+        end = start + 0.0
+        start = 0.0
+
+    if inc == None:
+        inc = 1.0
+
+    L = []
+    while 1:
+        next = start + len(L) * inc
+        if inc > 0 and next >= end:
+            break
+        elif inc < 0 and next <= end:
+            break
+        L.append(next)
+        
+    return L
+## end of http://code.activestate.com/recipes/66472/ }}}
+
+## http://stackoverflow.com/questions/354038/checking-if-string-is-a-number-python
+def isNumber(s):
+	"""isNumber( string ) : determines if passed <string> is convertable to a number """
+	try:
+		float (s)
+		return True
+	except ValueError:
+		return False
+
+# default parameters
+function 	= False
+precision	= 6
+c_values	= []
+x_range		= [0,1]
+x_points	= 10
+y_only		= False
+use_bc		= False
+verbose		= False
+
+#
+# start of main code body
+# get arguments
+for i in range(0, len(sys.argv)):
+	if (sys.argv[i] == '-f'):
+		function = sys.argv[i +1]
+		i = i+1
+	elif (sys.argv[i] == '-range'):
+		x_range = sys.argv[i +1].split(',')
+		try:
+			x_range = map(float,x_range)
+		except:
+			sys.stderr.write( "Mangled range description.\n" )
+			exit()
+		i = i+1
+	elif (sys.argv[i] == '-coef'):
+		c_values = sys.argv[i +1].split(',')
+		try:
+			c_values = map(float,c_values)
+		except:
+			sys.stderr.write("Coefficient list could not be parsed.\n")
+			exit()
+		i = i+1
+	elif (sys.argv[i] == '-points'):
+		x_points = int(sys.argv[i +1])
+		i = i+1
+	elif (sys.argv[i] == '-bc'):
+		use_bc = True
+		try:
+			precision = int(sys.argv[i +1])
+		except:
+			False
+		i = i+1
+	elif (sys.argv[i] == '-y'):
+		y_only = True
+	elif (sys.argv[i] == '-v'):
+		verbose = True
+	elif (sys.argv[i] == '-version'):
+		print version
+		exit()
+	elif ((sys.argv == '-h') or (sys.argv == '-help')):
+		showHelp()
+
+# function sanity check
+if (not function):
+	showHelp()
+	exit()
+
+# if the function contains coefficients, make sure the user has specfied some
+if ((function.find('c') > 0) and (not c_values)):
+	sys.stderr.write("Expression contains coefficients, but you haven't specified any.\n")
+	exit()
+
+# attempt to eval the specified function
+if (not use_bc):
+	x = range(1,100) # ugly
+	c = c_values
+	try:
+		eval(function)
+	except:
+		sys.stderr.write( "Could not parse expression.\n" )
+		exit()
+
+# do we get x values from stdin?
+if sys.stdin.isatty():
+	# generate x values list
+	x_step = (x_range[1]-x_range[0])/x_points
+	x_proto = frange(x_range[0],x_range[1],x_step)
+	x_values = []
+	for x in x_proto:
+		x_values.append([x])
+else:
+	# x-values have been passed to us
+	s = sys.stdin.read()
+	a = s.split("\n")
+	
+	# make a 2d array of x values	
+	x_values = []
+	for b in a:
+		c = b.split("\t")
+		
+		x_row = []
+		for d in c:
+			try:
+				x_row.append(float(d))
+			except:
+				showIfVerbose("Could not convert value '"+d+"'.\n")
+				x_row.append(0)
+				
+		x_values.append(x_row)
+		
+# evaluate expression at each x
+y_values = []
+y=''
+
+for x in x_values:
+	# value of y to be entered if evaluation fails
+	y = ''
+	
+	# make a local copy of the function for parameter replacing
+	e = function
+	# replace all x's
+	for i in range(0,len(x)):
+		e = e.replace('x['+str(i)+']',str(x[i]))
+	# replace all c's
+	for i in range(0,len(c_values)):
+		e = e.replace('c['+str(i)+']',str(c_values[i]))
+
+	if (use_bc):
+		# attempt to execute call
+		try:
+			y = os.popen('echo "scale='+str(precision)+'; '+e+'" | bc').readlines()
+			y = float(y[0])
+		except:
+			showIfVerbose("Error evaluating '"+e+"' via bc.\n")
+	else:
+		try:
+			c = c_values
+			y = eval(function)
+		except:
+			showIfVerbose("Error evaluating '"+e+"' via eval().\n")
+			
+	# print y value
+	if (not y_only):
+		for z in x:
+			print str(z)+"\t",
+	print (str(y))

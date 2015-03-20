@@ -1,0 +1,44 @@
+#!/bin/sh
+# script takes a xy1y2 tab-delimited dataset and calculates the SSE difference between the  y1 and y2 columns
+
+# help
+if [ "$1" = "-h" ]
+then
+	echo "chisq_col -xyy|-yy (-log) [file]"
+	exit
+fi
+
+# determine dataset type
+if [ "$1" = "-xyy" ]
+then
+	my_col=1
+elif [ "$1" = "-yy" ]
+then
+	my_col=0
+fi
+
+# use logchisq?
+if [ "$2" = "-log" ]
+then
+	use_log=1
+	my_file=$3
+else
+	use_log=0
+	my_file=$2
+fi
+
+# create temporary tmunge input files
+tread -w -col $my_col $my_file > tmunge.in
+
+my_col=`expr $my_col + 1`;
+
+# calculate stddev of the difference
+if [ "$use_log" = "1" ]
+then
+	tread -col $my_col $my_file | tmunge -f logchisq tmunge.in | tcalc -sum
+else
+	tread -col $my_col $my_file | tmunge -f chisq tmunge.in | tcalc -sum
+fi
+
+# remove scratch file
+rm tmunge.in

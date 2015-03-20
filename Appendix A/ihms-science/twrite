@@ -1,0 +1,146 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 05.21.2009:	written
+# 01.27.2010:	fixed argument syntax, added help
+# 05.18.2010	added pipe checking
+# 04.25.2011	EI	added version, chenged to twrite
+$version = "04.25.11";
+
+# default values
+$argcounter			= 0;
+$original_file		= "false";
+$column				= 0;
+$start				= 0;
+$end				= "false";
+$output_file		= "false";
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-orig" )
+	{
+		$original_file = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-col" )
+	{
+		$column = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-start" )
+	{
+		$start = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-end" )
+	{
+		$end = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-out" )
+	{
+		$output_file = $ARGV[ $argcounter +1 ];
+		$argcounter++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+if (-t STDIN){
+	print STDERR "No pipe\n";
+	exit;
+}
+
+# if an original file wasn't specified, try last argument
+if ($original_file eq "false")
+{
+	$original_file = $ARGV[$#ARGV];
+	
+	# if output file wasn't specified either, write results back to same file
+	if ($output_file eq "false"){
+		$output_file = $original_file;
+	}
+}
+
+# argument sanity checks
+if (-e $original_file)
+{
+	# open and read the file
+	open(SRCFILE, $original_file) || die "Can't open $original_file: $!\n";
+	@file_data = <SRCFILE>;
+	chomp(@file_data);
+	close(SRCFILE);
+}else{
+	die "Valid original file not specified.\n";
+}
+
+# get passed dataset
+@passed_data = <STDIN>;
+chomp(@passed_data);
+
+if ($end eq "false"){
+	$end = $#file_data;
+}
+
+# combine the two data sets
+# i = index of the parent (list to have data inserted into)
+# j = index of the data to be inserted
+# k = column counter
+$j = 0;
+for($i = $start; $i <= $end; $i++)
+{
+	@columns = split("\t",$file_data[$i]);
+	
+	# replace the column data
+	if (exists($passed_data[$j]))
+	{
+		$columns[$column] = $passed_data[$j];
+		$j++;
+	}
+	
+	# if columns don't exist, create (pad) them
+	for($k = 0; $k <= $column; $k++)
+	{
+		if (not exists($columns[$k])){
+			$columns[$k] = '';
+		}
+		else # emperical note: pesky whitespace screws things up
+		{
+			$columns[$k] =~ s/\s*//g;
+		}
+	}
+	
+	# join line data with tab
+	$file_data[$i] = join("\t",@columns);
+}
+
+# write data to stdout
+$output_data = join("\n",@file_data);
+if ($output_file ne "false")
+{
+	# open log file
+	open(OUTPUT, ">$output_file") or die("Can't open '$output_file' for writing: $!");
+	print OUTPUT $output_data;
+	close(OUTPUT);
+}else{
+	print STDOUT $output_data;
+}
+
+sub show_help
+{
+	print "twrite -col=N (-start=N -end=N -orig [file]) [file]\n";
+	exit;
+}

@@ -1,0 +1,16 @@
+!Zinc chirality restraints
+assign (segid "A" and resid 12 and name SG) (segid "A" and resid 15 and name SG) (segid "A" and resid 26 and name SG) (segid "A" and resid 29 and name SG) 1 72 5 2
+assign (segid "B" and resid 12 and name SG) (segid "B" and resid 15 and name SG) (segid "B" and resid 26 and name SG) (segid "B" and resid 29 and name SG) 1 72 5 2
+assign (segid "C" and resid 12 and name SG) (segid "C" and resid 15 and name SG) (segid "C" and resid 26 and name SG) (segid "C" and resid 29 and name SG) 1 72 5 2
+assign (segid "A" and resid 12 and name CA) (segid "A" and resid 12 and name CB) (segid "A" and resid 12 and name SG) (segid "A" and resid 54 and name ZN*) 1 -163 10 2
+assign (segid "B" and resid 12 and name CA) (segid "B" and resid 12 and name CB) (segid "B" and resid 12 and name SG) (segid "B" and resid 54 and name ZN*) 1 -163 10 2
+assign (segid "C" and resid 12 and name CA) (segid "C" and resid 12 and name CB) (segid "C" and resid 12 and name SG) (segid "C" and resid 54 and name ZN*) 1 -163 10 2
+assign (segid "A" and resid 15 and name CA) (segid "A" and resid 15 and name CB) (segid "A" and resid 15 and name SG) (segid "A" and resid 54 and name ZN*) 1 -94 10 2
+assign (segid "B" and resid 15 and name CA) (segid "B" and resid 15 and name CB) (segid "B" and resid 15 and name SG) (segid "B" and resid 54 and name ZN*) 1 -94 10 2
+assign (segid "C" and resid 15 and name CA) (segid "C" and resid 15 and name CB) (segid "C" and resid 15 and name SG) (segid "C" and resid 54 and name ZN*) 1 -94 10 2
+assign (segid "A" and resid 26 and name CA) (segid "A" and resid 26 and name CB) (segid "A" and resid 26 and name SG) (segid "A" and resid 54 and name ZN*) 1 -155 10 2
+assign (segid "B" and resid 26 and name CA) (segid "B" and resid 26 and name CB) (segid "B" and resid 26 and name SG) (segid "B" and resid 54 and name ZN*) 1 -155 10 2
+assign (segid "C" and resid 26 and name CA) (segid "C" and resid 26 and name CB) (segid "C" and resid 26 and name SG) (segid "C" and resid 54 and name ZN*) 1 -155 10 2
+assign (segid "A" and resid 29 and name CA) (segid "A" and resid 29 and name CB) (segid "A" and resid 29 and name SG) (segid "A" and resid 54 and name ZN*) 1 -98 10 2
+assign (segid "B" and resid 29 and name CA) (segid "B" and resid 29 and name CB) (segid "B" and resid 29 and name SG) (segid "B" and resid 54 and name ZN*) 1 -98 10 2
+assign (segid "C" and resid 29 and name CA) (segid "C" and resid 29 and name CB) (segid "C" and resid 29 and name SG) (segid "C" and resid 54 and name ZN*) 1 -98 10 2

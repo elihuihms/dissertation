@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+
+if ($#ARGV == -1)
+{
+	print "Usage: pdb2xyz <file.pdb> > file.xyz\n";
+	exit;
+}
+
+$file = $ARGV[$#ARGV];
+open (FILE, "<$file") or die("Could not open \"$file\"!");
+
+@lines = <FILE>;
+
+close(FILE);
+
+@output = ();
+for($i=0; $i<$#lines; $i++)
+{
+	#	ATOM      1  N   PHE A   1      -1.564   1.397   0.750  1.00  0.00           N
+	if ($lines[$i] =~ /^([A-Za-z]+)\s+(\d+)\s+(\w+[']*)\s+([A-Za-z]+)\s+([A-Za-z]*)\s+(\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([-+]?\d+\.\d+)\s+([A-Za-z]+)/)
+	{
+		push(@output,"$12\t$7\t$8\t$9\n");
+	}
+}
+
+print $#output+1;
+print "\n";
+print @output;

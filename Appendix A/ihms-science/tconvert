@@ -1,0 +1,80 @@
+#!/usr/bin/perl
+
+# Written by Elihu Ihms (ihms@steelsnowflake.com)
+
+# Changelog:
+# 01.09.2012	written
+
+$version='1.9.2012';
+
+# default values
+$argcounter			= 0;
+$source_file		= 'false';
+$start_col			= 0;
+$delimiter_regex	= qr/\t/;
+
+#go through the arguments and get their values
+while ( $argcounter <= $#ARGV )
+{
+	if ( $ARGV[ $argcounter ] eq "-delimiter" )
+	{
+		$delimiter = $ARGV[ $argcounter +1 ];
+		$delimiter_regex = qr/$delimiter/;
+		$argcounter++;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-whitespace" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-w" ){
+		$delimiter_regex = qr/\s+/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-comma" ){
+		$delimiter_regex = qr/\,/;
+	}
+	elsif ( $ARGV[ $argcounter ] eq "-ignore" ){
+		$start_col++;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-version"){
+		print $version."\n";
+		exit;
+	}
+	elsif ($ARGV[ $argcounter ] eq "-h"){
+		show_help();
+	}
+	elsif ($ARGV[ $argcounter ] eq "-help"){
+		show_help();
+	}
+	
+	$argcounter++;
+}
+
+$source_file = $ARGV[$#ARGV];
+open(SRCFILE, $source_file) || die "Can't open $source_file: $!\n";
+@file_data = <SRCFILE>;
+close(SRCFILE);
+	
+chomp(@file_data);
+
+# export to stdout
+for($i=$start; $i <= $#file_data; $i++)
+{
+	# split the delimited $_ data
+	@line_data = split($delimiter_regex,$file_data[$i]);
+	
+	for($j=$start_col; $j <=$#line_data; $j++)
+	{
+		print $line_data[ $j ];
+		
+		if ($j == $#line_data){
+			print "\n";
+		}else{
+			print "\t";
+		}
+	}
+}
+
+sub show_help
+{
+	print "tconvert (-ignore -comma -whitespace|-w -delimiter=?) <in_file>\n";
+	exit;
+}

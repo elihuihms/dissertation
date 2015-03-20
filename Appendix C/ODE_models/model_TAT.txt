@@ -1,0 +1,35 @@
+[task]
+	task = simulate
+	data = progress
+
+[mechanism]
+	T + A <==> TA	: k1f k1b
+	TA + T <==> TAT	: k2f k2b
+
+[constants]
+	k1f = 0.1
+	k1b = 0.1
+	k2f = 0.5
+	k2b = 0.1
+
+[responses]
+	T = 0
+	A = 0
+	TA = 1
+	TAT = 0
+
+[data]
+	mesh logarithmic from 0.01 to 10 step 1.01
+	file ./150227/model_TAT_05.txt | concentration T = 0.5 | concentration A = 2.5
+	file ./150227/model_TAT_10.txt | concentration T = 1.0 | concentration A = 5.0
+	file ./150227/model_TAT_15.txt | concentration T = 1.5 | concentration A = 7.5
+	file ./150227/model_TAT_20.txt | concentration T = 2.0 | concentration A = 10.0
+	file ./150227/model_TAT_25.txt | concentration T = 2.5 | concentration A = 12.5
+
+[output]
+  directory		./150227/model_TAT
+
+[end]
+
+
+

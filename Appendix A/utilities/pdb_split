@@ -1,0 +1,29 @@
+#!/usr/bin/python
+""" Splits one file containing multiple models into different PDBs """
+
+import sys
+import glob
+
+if len(sys.argv) < 2:
+    print "pdb_split model.pdb"
+    sys.exit()
+
+f = open( sys.argv[1], 'r' )
+
+i = 1
+new = None
+
+line = f.readline()
+while(line):
+	
+	if( line[0:5] == 'MODEL' ):
+		new = open( "model_%i.pdb" % i, 'w' )
+	elif( line[0:6] == 'ENDMDL' ):
+		new.close()
+		i+=1
+	elif(new):
+		new.write( line )
+		
+	line = f.readline()
+
+f.close()

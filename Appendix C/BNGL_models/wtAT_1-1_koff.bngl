@@ -1,0 +1,61 @@
+begin parameters
+
+	vol		1E-14			#Reaction volume, in Liters
+	Na		6.022E23		#Avogadros number
+
+	Tconc	0.50E-6*(vol*Na)	#uM
+	Aconc	0.50E-6*(vol*Na)	#uM
+
+	k1f		1.50E5/(Na*vol)
+	k1b		0.316
+	k2f		2.34E4/(Na*vol)
+	k2b		0.0450
+	k3f		3.16E3/(Na*vol)
+	k3b		0.00827
+
+end parameters
+
+begin molecule types
+
+	AT(t,t,t,n~0~1~2~3)
+	TRAP(a,a,a,a,a,n~0~1~2~3~4~5)
+
+end molecule types
+
+begin	species
+
+	AT(t,t,t,n~0)			Aconc
+	TRAP(a,a,a,a,a,n~0)		Tconc
+
+end	species
+
+begin reaction rules
+
+	TRAP(a,n~0) + AT(t,n~0)	<-> TRAP(a!0,n~1).AT(t!0,n~1)	k1f/(5*3), k1b/(1*1)
+	TRAP(a,n~1) + AT(t,n~0)	<-> TRAP(a!0,n~2).AT(t!0,n~1)	k1f/(4*3), k1b/(2*1)
+	TRAP(a,n~2) + AT(t,n~0)	<-> TRAP(a!0,n~3).AT(t!0,n~1)	k1f/(3*3), k1b/(3*1)
+	TRAP(a,n~3) + AT(t,n~0)	<-> TRAP(a!0,n~4).AT(t!0,n~1)	k2f/(2*3), k2b/(4*1)
+	TRAP(a,n~4) + AT(t,n~0)	<-> TRAP(a!0,n~5).AT(t!0,n~1)	k3f/(1*3), k3b/(5*1)
+
+	TRAP(a,n~0) + AT(t,n~1)	<-> TRAP(a!0,n~1).AT(t!0,n~2)	k1f/(5*2), k1b/(1*2*2)
+	TRAP(a,n~1) + AT(t,n~1)	<-> TRAP(a!0,n~2).AT(t!0,n~2)	k1f/(4*2), k1b/(2*2*2)
+	TRAP(a,n~2) + AT(t,n~1)	<-> TRAP(a!0,n~3).AT(t!0,n~2)	k1f/(3*2), k1b/(3*2*2)
+	TRAP(a,n~3) + AT(t,n~1)	<-> TRAP(a!0,n~4).AT(t!0,n~2)	k2f/(2*2), k2b/(4*2*2)
+	TRAP(a,n~4) + AT(t,n~1)	<-> TRAP(a!0,n~5).AT(t!0,n~2)	k3f/(1*2), k3b/(5*2*2)
+
+	TRAP(a,n~0) + AT(t,n~2)	<-> TRAP(a!0,n~1).AT(t!0,n~3)	k1f/(5*1), k1b/(1*3)
+	TRAP(a,n~1) + AT(t,n~2)	<-> TRAP(a!0,n~2).AT(t!0,n~3)	k1f/(4*1), k1b/(2*3)
+	TRAP(a,n~2) + AT(t,n~2)	<-> TRAP(a!0,n~3).AT(t!0,n~3)	k1f/(3*1), k1b/(3*3)
+	TRAP(a,n~3) + AT(t,n~2)	<-> TRAP(a!0,n~4).AT(t!0,n~3)	k2f/(2*1), k2b/(4*3)
+	TRAP(a,n~4) + AT(t,n~2)	<-> TRAP(a!0,n~5).AT(t!0,n~3)	k3f/(1*1), k3b/(5*3)
+
+end reaction rules
+
+begin observables
+
+	Molecules	AT_FRET		TRAP(a!0).AT(t!0)
+	Molecules	TRAP_FRET	TRAP(a!0).AT(t!0,t!1).TRAP(a!1)
+
+end observables
+
+writeXML();

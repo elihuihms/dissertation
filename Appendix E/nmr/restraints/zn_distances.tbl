@@ -1,0 +1,27 @@
+! Zn SG restraints
+assign (segid "A" and resid 12 and name SG ) (segid "A" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "B" and resid 12 and name SG ) (segid "B" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "C" and resid 12 and name SG ) (segid "C" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "A" and resid 15 and name SG ) (segid "A" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "B" and resid 15 and name SG ) (segid "B" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "C" and resid 15 and name SG ) (segid "C" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "A" and resid 26 and name SG ) (segid "A" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "B" and resid 26 and name SG ) (segid "B" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "C" and resid 26 and name SG ) (segid "C" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "A" and resid 29 and name SG ) (segid "A" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "B" and resid 29 and name SG ) (segid "B" and resid 54 and name ZN*) 2.32 0.04 0.04
+assign (segid "C" and resid 29 and name SG ) (segid "C" and resid 54 and name ZN*) 2.32 0.04 0.04
+! Zn CB restraints
+assign (segid "A" and resid 12 and name CB ) (segid "A" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "B" and resid 12 and name CB ) (segid "B" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "C" and resid 12 and name CB ) (segid "C" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "A" and resid 15 and name CB ) (segid "A" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "B" and resid 15 and name CB ) (segid "B" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "C" and resid 15 and name CB ) (segid "C" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "A" and resid 26 and name CB ) (segid "A" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "B" and resid 26 and name CB ) (segid "B" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "C" and resid 26 and name CB ) (segid "C" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "A" and resid 29 and name CB ) (segid "A" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "B" and resid 29 and name CB ) (segid "B" and resid 54 and name ZN*) 3.3 0.15 0.1
+assign (segid "C" and resid 29 and name CB ) (segid "C" and resid 54 and name ZN*) 3.3 0.15 0.1
+

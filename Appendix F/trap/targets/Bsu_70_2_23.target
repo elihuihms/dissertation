@@ -1,0 +1,5 @@
+NAME	Bsu_TRAP_7xAT_5mgmL
+
+STCH	1	-component TRAP 1 -component AT	7
+
+SAXS	1	-bg -scale -offset -file saxs_data/Bsu_70_2_23.dat

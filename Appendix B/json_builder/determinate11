@@ -1,0 +1,54 @@
+#!/usr/bin/python
+
+from sys import argv,exit
+from chain_generator import *
+from json import dumps
+
+# has the user specified a number of ATs?
+if (len(argv) < 2):
+	print "Usage: determinate11 nTRAP (nAT)"
+	exit(0)
+elif (len(argv) < 3):
+	max = False
+else:
+	max = int(argv[2])
+
+# define the binding types for the model
+defineType(name='T',numSites=11,bindsTo=['A'],symmetric=True,maxCount=int(argv[1]))
+defineType(name='A',numSites=3,bindsTo=['T'],symmetric=True,maxCount=max)
+
+# actually create the chains
+a = makeBinaryChains()
+print str(len(a))+" chains created."
+
+# the following section selects out only the chains containing the specified number of TRAPs and anti-TRAPs
+
+# count the number of TRAPs in each chain
+b = []
+for x in a:
+	i = 0
+	for y in x:
+		if (y['type'] == 0):
+			i+=1
+	if (i==int(argv[1])):
+		b.append(x)
+
+# if we've specified a specific number of ATs, check those too
+if (max == False):
+	c = b
+else:
+	c = []
+	for x in b:
+		i = 0
+		for y in x:
+			if (y['type'] == 1):
+				i+=1
+		if (i==int(argv[2])):
+			c.append(x)
+
+print str(len(c))+" chains selected."
+
+f = open('output.json','w')
+#f.write( "var chains="+dumps(c)+';' )
+f.write( dumps(c) )
+f.close
